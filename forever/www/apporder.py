@@ -36,7 +36,8 @@ def create_sales_invoice(customer,customer_group,items):
 
         si.company = frappe.defaults.get_defaults().company
         si.customer = customer
-        si.update_stock = 0
+        si.updated_customer_group = customer_group
+        si.update_stock = 1
         
         if items:
             for it in items:

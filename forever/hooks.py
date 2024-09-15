@@ -124,10 +124,13 @@ app_license = "mit"
 
 doc_events = {
 	"Item": {
-		"validate": "forever.forever.doc_events.item.extend_validate"
+		  "validate": "forever.forever.doc_events.item.extend_validate"
     },
     "Item Price": {
-		"validate": "forever.forever.doc_events.item_price.extend_validate"
+		  "validate": "forever.forever.doc_events.item_price.extend_validate"
+    },
+    "Sales Invoice" : {
+      "on_submit": "forever.forever.doc_events.sales_invoice.extended_on_submit"
     }
 }
 
