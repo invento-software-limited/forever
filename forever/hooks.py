@@ -122,13 +122,14 @@ app_license = "mit"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	"Item": {
+		"validate": "forever.forever.doc_events.item.extend_validate"
+    },
+    "Item Price": {
+		"validate": "forever.forever.doc_events.item_price.extend_validate"
+    }
+}
 
 # Scheduled Tasks
 # ---------------

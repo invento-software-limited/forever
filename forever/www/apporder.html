@@ -1,0 +1,479 @@
+
+{% extends "templates/web.html" %}
+{% block style %}
+<style>
+
+
+body{
+	margin:0;
+	color:#6a6f8c;
+	background:#c8c8c8;
+	font:600 16px/18px 'Open Sans',sans-serif;
+}
+*,:after,:before{box-sizing:border-box}
+.clearfix:after,.clearfix:before{content:'';display:table}
+.clearfix:after{clear:both;display:block}
+a{color:inherit;text-decoration:none}
+
+.login-wrap{
+	width:100%;
+	margin:auto;
+	max-width:525px;
+	min-height:670px;
+	position:relative;
+	background: rgb(255 255 255);
+	box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
+}
+.login-html{
+  color: black;
+	width:100%;
+	height:100%;
+	position:absolute;
+	padding: 18px 22px 13px 22px;
+	background:rgb(255 255 255);
+}
+.login-html .sign-in-htm,
+.login-html .sign-up-htm{
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	position:absolute;
+	transform:rotateY(180deg);
+	backface-visibility:hidden;
+	transition:all .4s linear;
+}
+.login-html .sign-in,
+.login-html .sign-up,
+.login-form .group .check{
+	display:none;
+}
+.login-html .tab,
+.login-form .group .label,
+.login-form .group .button{
+	text-transform:uppercase;
+}
+.login-html .tab{
+	font-size:17px;
+	margin-right:15px;
+	padding-bottom:5px;
+	margin:0 15px 10px 0;
+	display:inline-block;
+	border-bottom:2px solid transparent;
+  font-weight: 100;
+}
+.login-html .sign-in:checked + .tab,
+.login-html .sign-up:checked + .tab{
+	color:#fff;
+	border-color:#1161ee;
+}
+.login-form{
+	min-height:345px;
+	position:relative;
+	perspective:1000px;
+	transform-style:preserve-3d;
+}
+.login-form .group{
+	margin-bottom:15px;
+}
+.login-form .group .label,
+.login-form .group .input,
+.login-form .group .button{
+	width:100%;
+	color:#000000;
+	display:block;
+}
+.login-form .group .input,
+.login-form .group .button{
+	border:none;
+	padding:12px 13px;
+	border-radius:25px;
+	background:rgb(200 200 200);
+}
+.rate-input {
+
+  padding:12px 7px !important;
+}
+.login-form .group input[data-type="password"]{
+	text-security:circle;
+	-webkit-text-security:circle;
+}
+.login-form .group .label{
+	color:#4a4a4a;
+	font-size:12px;
+}
+.login-form .group .button{
+	background:#a9a500;
+}
+.login-form .group label .icon{
+	width:15px;
+	height:15px;
+	border-radius:2px;
+	position:relative;
+	display:inline-block;
+	background:rgba(255,255,255,.1);
+}
+.login-form .group label .icon:before,
+.login-form .group label .icon:after{
+	content:'';
+	width:10px;
+	height:2px;
+	background:#fff;
+	position:absolute;
+	transition:all .2s ease-in-out 0s;
+}
+.login-form .group label .icon:before{
+	left:3px;
+	width:5px;
+	bottom:6px;
+	transform:scale(0) rotate(0);
+}
+.login-form .group label .icon:after{
+	top:6px;
+	right:0;
+	transform:scale(0) rotate(0);
+}
+.login-form .group .check:checked + label{
+	color:#fff;
+}
+.login-form .group .check:checked + label .icon{
+	background:#1161ee;
+}
+.login-form .group .check:checked + label .icon:before{
+	transform:scale(1) rotate(45deg);
+}
+.login-form .group .check:checked + label .icon:after{
+	transform:scale(1) rotate(-45deg);
+}
+.login-html .sign-in:checked + .tab + .sign-up + .tab + .login-form .sign-in-htm{
+	transform:rotate(0);
+}
+.login-html .sign-up:checked + .tab + .login-form .sign-up-htm{
+	transform:rotate(0);
+}
+
+.hr{
+	height:2px;
+	margin:60px 0 50px 0;
+	background:rgba(255,255,255,.2);
+}
+.foot-lnk{
+	text-align:center;
+}
+  .item {
+
+    box-shadow:0 -4px 8px 0 rgba(31,10,6,0.2),0 1px 3px 0 rgba(0,0,0,.19);
+    border-radius: 8px;
+  }
+  .navbar {
+
+    display: none;
+  }
+  .web-footer {
+
+    display: none;
+  }
+  .second-next {
+
+    background: #a9a500;
+    border-radius: 26px
+  }
+  .item-row {
+
+    padding: 7px 0px 7px 0px;
+    font-weight: 100;
+  }
+  .item-name {
+
+    font-weight: bold !important;
+    font-size: small;
+  }
+  .rate {
+
+    font-weight: bold !important;
+    font-size: small;
+  }
+
+  .company-image {
+
+    height : 11rem;
+
+  }
+  .item-main-image {
+
+    border-radius : 8px;
+  }
+  .order-status {
+
+    color: #a9a500;;
+  }
+  @media only screen and (max-width: 600px) {
+      .company-image {
+          height : 7rem !important;
+          margin-bottom: 2rem;
+      }
+      .container {
+
+        padding: 0px !important;
+        margin: 0px !important;
+      }
+  }
+  </style>
+{% endblock style %}
+
+{% block page_content %}
+
+<div class="login-wrap">
+    <div class="login-html" >
+      <div class="logo-image text-center mb-5">
+        <img class="company-image" style="height : 11rem;" src="/files/forever.png">
+      </div>
+        <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab hidden">Check Customer</label>
+        <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab hidden">Order Details</label>
+        <div class="login-form">
+            <div class="sign-in-htm">
+                <div id="customer-div" class="group">
+                    <label for="customer" class="label">Customer</label>
+                    <input id="customer" type="text" class="input">
+                </div>
+                <div id="customer-group-div" class="group hidden">
+                    <label for="customerGroup" class="label">Customer Group</label>
+                    <input id="customerGroup" type="text" class="input">
+                </div>
+                <div id="customer-mobile-div" class="group hidden">
+                    <label for="mobile" class="label">Mobile</label>
+                    <input id="mobile" type="text" class="input">
+                </div>
+                <div id="check-customer-first" class="group">
+                    <input id="check-customer" type="submit" class="button" value="Next">
+                </div>
+                <div id="process-to-first" class="group second-next text-center hidden">
+                  <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab m-0 mt-3 mb-1 pt-1">Next</label>
+                </div>
+            </div>
+            <div class="sign-up-htm">
+                <div class="item-section row mb-4" style="font-size: 12px; color: rgb(0, 0, 0);">
+                  {% for item in items %}
+                    <div class="col-xs-12 item mb-1" >
+                        <div class="row item-row">
+                            <div class="col-xs-10 row">
+                              <div class="col-xs-3 p-0">
+                                  <div class="item-image pl-2">
+                                     <img class="item-main-image" src="{{ item.image }}">
+                                  </div>
+                              </div>
+                              <div class="col-xs-9">
+                                  <p class="m-0 item-name" id="{{ item.item_code }}">{{ item.item_name }}</p>
+                                  <span class="m-0">{{ item.item_code }}</span>
+                                  <p class="m-0 rate"><strong>{{ item.standard_selling_rate }} BDT</strong> </p>
+                                  <span class="m-0">{% if item.limit %}{{ item.limit }} pc {% else %} {% endif %}</span>
+                                  <input type="hidden" class="item-id" value="{{ item.item_code }}">
+                                  <input type="hidden" class="item-limit" value="{{ item.limit or 0 }}">
+                                  <input type="hidden" class="item-price" value="{{ item.standard_selling_rate or 0 }}">
+                              </div>
+                            </div>
+                            <div class="col-xs-2">
+                              <div id="quantity-div" class="group">
+                                <label for="quantity" class="label text-center m-0">Qty</label>
+                                <input id="quantity" type="int" class="input mt-1 text-center rate-input">
+                            </div>
+                            </div>
+                        </div>
+                      </div>
+                    {% endfor %}
+                    <div class="col-xs-12 row price-section hidden mt-5">
+                        <div class="col-xs-8"><p class="m-0">Total Qty</p></div>
+                        <div class="col-xs-4 text-right"><p id="total-qty" class="total-qty m-0"></p></div>
+                        <div class="col-xs-8"><p class="m-0">Sub Total</p></div>
+                        <div class="col-xs-4 text-right"><p id="total-amount" class="total-amount m-0"></p></div>
+                        <div class="col-xs-8"><p class="m-0">Vat (5%)</p></div>
+                        <div class="col-xs-4 text-right"><p id="total-vat" class="total-vat m-0"></p></div>
+                        <div class="col-xs-8" style="color: #a9a500;"><p class="m-0">Total Amount</p></div>
+                        <div class="col-xs-4 text-right" style="color: #a9a500;"><p id="total-amm" class="total-amm m-0"></p></div>
+                    </div>
+                    <div id="process-to-last" class="group col-xs-12 mt-5">
+                        <input id="process-to-last" type="submit" class="button" value="Preview">
+                    </div>
+                    <div id="order-create" class="group col-xs-12 mt-5 hidden">
+                        <input id="order-create" type="submit" class="button" value="Preocess Order">
+                    </div>
+                </div>
+              <div id="qr-section" class="qr-section text-center hidden">
+                    <div class="order-status mb-5">
+                        <h1 class="mt-5" style="color: #a9a500;">Order Submited</h1>
+                        <p class="mb-5">Thank You For Your Order</p>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-xs-3"></div>
+                        <div class="col-xs-6">
+                            <div id="qrcode" class="text-center"></div>
+                        </div>
+                        <div class="col-xs-3"></div>
+                    </div>
+                    <div id="download-qr" class="group mb-5" style="margin-top: 6rem;">
+                        <input id="download-qr" type="submit" class="button" value="Download QR Code">
+                    </div>
+                </div>
+            </div>
+        </div>
+	</div>
+</div>
+
+
+
+  <!-- <div class="form-container">
+    <h4 class="text-center">Customer Form</h4>
+    <div class="form-group">
+      <label for="customer">Customer</label>
+      <input type="text" id="customer" placeholder="Enter customer">
+    </div>
+    <div id="customer-group-div" class="form-group hidden">
+      <label for="customerGroup">Customer Group</label>
+      <input type="text" id="customerGroup" placeholder="Enter customer group">
+    </div>
+    <div id = "customer-mobile-div" class="form-group hidden">
+      <label for="mobile">Mobile</label>
+      <input type="text" id="mobile" placeholder="Enter mobile number">
+    </div>
+    <button id="check-customer" class="btn" >Submit</button>
+  </div> -->
+{% endblock page_content %}
+{% block script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script>
+      frappe.ready(function() {
+          $("#check-customer").click(function() {
+              var customer = $('#customer').val();
+              let args = {
+                customer: customer,
+              }
+              frappe.call({
+                  btn: this,
+                  method: "forever.www.apporder.check_customer_information",
+                  args: args,
+                  callback: function(r) {
+                      if (r.message.customer_group) {
+                          $('#customerGroup').val(r.message.customer_group);
+                          $('#mobile').val(r.message.mobile);
+                          $("#customer-group-div").removeClass("hidden");
+                          $("#customer-mobile-div").removeClass("hidden");
+                          $("#check-customer-first").addClass("hidden");
+                          $("#process-to-first").removeClass("hidden");
+                      }
+                  }
+              })
+          });
+
+          $("#process-to-last").click(function() {
+              var total_qty = 0;
+              var total_amount = 0
+              var total_vat = 0
+
+              $('.item').each(function() {
+                  var qty = $(this).find('#quantity').val();
+                  var limit = $(this).find('.item-limit').val();
+                  var itemId = $(this).find('.item-id').val();
+                  if (parseFloat(qty)) {
+                      total_qty += parseFloat(qty)
+                  }
+                  if (limit > 0 && qty > limit) {
+                      frappe.throw({ message: __(`Qty cannot greater then limit for item ${itemId}.`)});
+                  }
+              })
+              if (total_qty < 1 ) {
+                  frappe.throw({ message: __(`No qty found,please set qty for items.`)});
+              }
+
+              $('.item').each(function() {
+                  var qty = $(this).find('#quantity').val();
+                  var limit = $(this).find('.item-limit').val();
+                  var price = $(this).find('.item-price').val();
+                  var rate = qty * price
+                  total_amount += rate
+
+                  if (!parseFloat(qty) > 0){
+                      $(this).find('.item-limit').parent('div').parent('div').parent('div').hide()
+                  }
+              })
+              if (total_qty < 1 ) {
+                  frappe.throw({ message: __(`No qty found,please set qty for items.`)});
+              }
+              let amount = total_amount;
+              let formattedAmount = new Intl.NumberFormat('en-BD', {
+                  style: 'currency',
+                  currency: 'BDT',
+                  minimumFractionDigits: 2
+              }).format(amount);
+
+              let vat = (5 * total_amount) / 100;
+              let formattedVat = new Intl.NumberFormat('en-BD', {
+                  style: 'currency',
+                  currency: 'BDT',
+                  minimumFractionDigits: 2
+              }).format(vat);
+
+              var main_total = amount + vat
+              let formattedMainTotal = new Intl.NumberFormat('en-BD', {
+                  style: 'currency',
+                  currency: 'BDT',
+                  minimumFractionDigits: 2
+              }).format(main_total);
+              document.getElementById("total-qty").innerHTML = total_qty
+              document.getElementById("total-amount").innerHTML = formattedAmount
+              document.getElementById("total-vat").innerHTML = formattedVat
+              document.getElementById("total-amm").innerHTML = formattedMainTotal
+              $(".price-section").removeClass("hidden")
+              $("#process-to-last").addClass("hidden")
+              $("#order-create").removeClass("hidden")
+          });
+
+
+          $("#order-create").click(function() {
+            var customer = $('#customer').val();
+              var customer_group = $('#customerGroup').val();
+              var itemsWithQty = [];
+              var total_qty = 0;
+
+              $('.item').each(function() {
+                  var qty = $(this).find('#quantity').val();
+                  var itemId = $(this).find('.item-id').val();
+                  if (parseFloat(qty)) {
+                      itemsWithQty.push({"item" : itemId,"qty" : qty});
+                      total_qty += parseFloat(qty)
+                  }
+              })
+              let args = {
+                customer: customer,
+                customer_group: customer_group,
+                items : itemsWithQty
+              }
+              frappe.call({
+                  btn: this,
+                  method: "forever.www.apporder.create_sales_invoice",
+                  args: args,
+                  callback: function(r) {
+                      $(".item-section").addClass("hidden");
+                      $("#order-createt").addClass("hidden");
+                      if (r.message) {
+                          var invoiceId = r.message;
+                          var qrCode = new QRCode(document.getElementById("qrcode"), {
+                              text: invoiceId,
+                              width: 180,
+                              height: 180
+                          });
+                      }
+                      $("#qr-section").removeClass("hidden");
+                  }
+              })
+          })
+          $("#download-qr").click(function() {
+              var element = document.getElementById('qrcode');
+              html2pdf()
+                  .from(element)
+                  .save('sales-invoice-qrcode.pdf');
+          });
+
+        });
+</script>
+{% endblock script %}
