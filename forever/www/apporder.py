@@ -2,7 +2,7 @@ import frappe
 import json
 from frappe.utils import nowdate
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def check_customer_information(customer):
     if customer:
         if frappe.db.exists("Customer",customer):
@@ -26,7 +26,7 @@ def get_context(context):
         data.append(data_dict)
     context.items = data
 
-@frappe.whitelist()
+@frappe.whitelist(allow_guest=True)
 def create_sales_invoice(customer,customer_group,items):
     try:
         customer_discount_percentage = frappe.db.get_value("Customer Group",customer_group,"discount")
