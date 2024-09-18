@@ -48,10 +48,6 @@ def get_context(context):
     if logo_image:
         context.logo_image = logo_image
     
-    check_image = frappe.db.get_single_value("Website Settings", "check_image")
-    if check_image:
-        context.check_image = check_image
-    
 
 @frappe.whitelist(allow_guest=True)
 def create_sales_invoice(customer,customer_group,items):
