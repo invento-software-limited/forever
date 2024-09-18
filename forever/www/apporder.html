@@ -2,486 +2,869 @@
 {% extends "templates/web.html" %}
 {% block style %}
 <style>
+    body {
+        margin: 0;
+        color: #6a6f8c;
+        background: #c8c8c8;
+        font: 600 16px/18px 'Open Sans', sans-serif;
+        background-image: url(bg.jpg);
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    *,
+    :after,
+    :before {
+        box-sizing: border-box;
+    }
+
+    .clearfix:after,
+    .clearfix:before {
+        content: '';
+        display: table;
+    }
+
+    .clearfix:after {
+        clear: both;
+        display: block;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .login-wrap {
+        width: 100%;
+        margin: auto;
+        max-width: 525px;
+        min-height: 98vh;
+        position: relative;
+        background: #ffffff;
+        box-shadow: -6px 10px 24px 0px rgba(0, 0, 0, 0.1);
+        margin-top: 1vh;
+        overflow-y: scroll;
+    }
+
+    .login-html {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        padding: 18px 22px 13px 22px;
+        background: #ffffff;
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
+    }
+
+    .login-form {
+        min-height: 345px;
+        position: relative;
+        perspective: 1000px;
+        transform-style: preserve-3d;
+    }
+
+    .login-form .group {
+        margin-bottom: 15px;
+    }
+
+    .login-form .group .label,
+    .login-form .group .input,
+    .login-form .group .button {
+        width: 100%;
+        color: #000000;
+        display: block;
+        padding-bottom: 10px;
+        font-size: 15px;
+        font-weight: 400;
+    }
+
+    .login-form .group .input,
+    .login-form .group .button {
+        border: none;
+        padding: 12px 13px;
+        border-radius: 5px;
+        background: rgb(200 200 200 / 55%);
+    }
+
+    .login-form .group .button {
+        background: #a9a500;
+        cursor: pointer;
+        color: #fff;
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+
+    /* Custom styles for steps */
+    .step {
+        display: none;
+    }
+
+    .step.active {
+        display: block;
+    }
+
+    /* Company logo */
+    .company-logo {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .company-logo img {
+        height: 115px;
+    }
+
+    /* product step */
+    .search-filter {
+        position: sticky;
+        padding: 10px 0px;
+        top: 0px;
+        background: #ffffff;
+        margin-left: 0px !important;
+        border-radius: 0px;
+    }
+
+    .search-filter input {
+        width: 80%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .filter-btn {
+        background-color: #f1c40f;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 18%;
+    }
+
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .tab-item {
+        padding: 10px 15px;
+        border-radius: 5px;
+        background-color: #f1c40f;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        color: #1c1c1c;
+    }
+
+    .tab-item.active {
+        background-color: #95791f;
+        color: #fff;
+    }
+
+    .product-list {
+        margin-bottom: 20px;
+    }
+
+    .product-card {
+        display: flex;
+        justify-content: space-between;
+        background-color: #fff;
+        padding: 5px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        align-items: center;
+    }
+
+    /* Product Image */
+    .product-image {
+        width: 80px;
+        height: 80px;
+        margin-right: 15px;
+        overflow: hidden;
+        flex-shrink: 0;
+        border-radius: 5px;
+        background: #ebebeb8c;
+    }
+
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .product-info {
+        width: 60%;
+    }
+
+    .product-info h4 {
+        margin: 0;
+        font-size: 13px;
+        font-weight: 500;
+        color: #000;
+    }
+
+    .product-info .item {
+        font-size: 12px;
+    }
+
+    .product-info .price {
+        color: #000;
+        font-weight: 500;
+        font-size: 13px;
+    }
 
 
-body{
-	margin:0;
-	color:#6a6f8c;
-	background:#c8c8c8;
-	font:600 16px/18px 'Open Sans',sans-serif;
-}
-*,:after,:before{box-sizing:border-box}
-.clearfix:after,.clearfix:before{content:'';display:table}
-.clearfix:after{clear:both;display:block}
-a{color:inherit;text-decoration:none}
+    .product-info .stock {
+        font-size: 12px;
+    }
 
-.login-wrap{
-	width:100%;
-	margin:auto;
-	max-width:525px;
-	min-height:670px;
-	position:relative;
-	background: rgb(255 255 255);
-	box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
-}
-.login-html{
-  color: black;
-	width:100%;
-	height:100%;
-	position:absolute;
-	padding: 18px 22px 13px 22px;
-	background:rgb(255 255 255);
-}
-.login-html .sign-in-htm,
-.login-html .sign-up-htm{
-	top:0;
-	left:0;
-	right:0;
-	bottom:0;
-	position:absolute;
-	transform:rotateY(180deg);
-	backface-visibility:hidden;
-	transition:all .4s linear;
-}
-.login-html .sign-in,
-.login-html .sign-up,
-.login-form .group .check{
-	display:none;
-}
-.login-html .tab,
-.login-form .group .label,
-.login-form .group .button{
-	text-transform:uppercase;
-}
-.login-html .tab{
-	font-size:17px;
-	margin-right:15px;
-	padding-bottom:5px;
-	margin:0 15px 10px 0;
-	display:inline-block;
-	border-bottom:2px solid transparent;
-  font-weight: 100;
-}
-.login-html .sign-in:checked + .tab,
-.login-html .sign-up:checked + .tab{
-	color:#fff;
-	border-color:#1161ee;
-}
-.login-form{
-	min-height:345px;
-	position:relative;
-	perspective:1000px;
-	transform-style:preserve-3d;
-}
-.login-form .group{
-	margin-bottom:15px;
-}
-.login-form .group .label,
-.login-form .group .input,
-.login-form .group .button{
-	width:100%;
-	color:#000000;
-	display:block;
-}
-.login-form .group .input,
-.login-form .group .button{
-	border:none;
-	padding:12px 13px;
-	border-radius:25px;
-	background:rgb(200 200 200);
-}
-.rate-input {
+    .stock.in-stock {
+        color: #a9a500;
+    }
 
-  padding:12px 7px !important;
-}
-.login-form .group input[data-type="password"]{
-	text-security:circle;
-	-webkit-text-security:circle;
-}
-.login-form .group .label{
-	color:#4a4a4a;
-	font-size:12px;
-}
-.login-form .group .button{
-	background:#a9a500;
-}
-.login-form .group label .icon{
-	width:15px;
-	height:15px;
-	border-radius:2px;
-	position:relative;
-	display:inline-block;
-	background:rgba(255,255,255,.1);
-}
-.login-form .group label .icon:before,
-.login-form .group label .icon:after{
-	content:'';
-	width:10px;
-	height:2px;
-	background:#fff;
-	position:absolute;
-	transition:all .2s ease-in-out 0s;
-}
-.login-form .group label .icon:before{
-	left:3px;
-	width:5px;
-	bottom:6px;
-	transform:scale(0) rotate(0);
-}
-.login-form .group label .icon:after{
-	top:6px;
-	right:0;
-	transform:scale(0) rotate(0);
-}
-.login-form .group .check:checked + label{
-	color:#fff;
-}
-.login-form .group .check:checked + label .icon{
-	background:#1161ee;
-}
-.login-form .group .check:checked + label .icon:before{
-	transform:scale(1) rotate(45deg);
-}
-.login-form .group .check:checked + label .icon:after{
-	transform:scale(1) rotate(-45deg);
-}
-.login-html .sign-in:checked + .tab + .sign-up + .tab + .login-form .sign-in-htm{
-	transform:rotate(0);
-}
-.login-html .sign-up:checked + .tab + .login-form .sign-up-htm{
-	transform:rotate(0);
-}
+    .stock.out-of-stock {
+        color: #e74c3c;
+    }
 
-.hr{
-	height:2px;
-	margin:60px 0 50px 0;
-	background:rgba(255,255,255,.2);
-}
-.foot-lnk{
-	text-align:center;
-}
-  .item {
+    .quantity-control {
+        display: flex;
+        align-items: center;
+    }
 
-    box-shadow:0 -4px 8px 0 rgba(31,10,6,0.2),0 1px 3px 0 rgba(0,0,0,.19);
-    border-radius: 8px;
-  }
-  .navbar {
+    .quantity-btn {
+        background-color: #f1c40f;
+        border: none;
+        padding: 8px;
+        border-radius: 15px;
+        cursor: pointer;
+    }
+
+    .quantity-input {
+        width: 80px;
+        text-align: center;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin: 0 10px;
+        padding: 9px 0;
+    }
+
+    .proceed-btn {
+        background-color: #a9a500;
+        color: white;
+        font-weight: bold;
+        border: none;
+        width: 100%;
+        padding: 11px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        margin: 5px 0;
+        font-size: 14px;
+    }
+
+    .tabs-container {
+        overflow-x: auto;
+        white-space: nowrap;
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 15px;
+        margin-top: -10px;
+    }
+
+    .tabs {
+        display: inline-flex;
+    }
+
+    .tab-item {
+        display: inline-block;
+        padding: 10px 20px;
+        cursor: pointer;
+        white-space: nowrap;
+        margin-right: 5px;
+    }
+
+    .tab-item.active {
+        font-weight: bold;
+    }
+
+    /* Scroll behavior */
+    .tabs-container::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .tabs-container::-webkit-scrollbar-thumb {
+        background-color: #888;
+        border-radius: 4px;
+    }
+
+    .tabs-container::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+    }
+
+    /* Summary Section Styling */
+    .summary-section {
+        margin-bottom: 6px;
+        padding: 15px 10px 15px;
+        background-color: rgb(200 200 200 / 21%);
+        border-radius: 5px;
+        margin-top: -8px;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .summary-label {
+        color: #000000;
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    .summary-value {
+        color: #000000;
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    .summary-row.total {
+        font-size: 18px;
+        font-weight: bold;
+        border-top: 1px solid #ddd;
+        padding-top: 10px;
+        color: #F5A623;
+    }
+
+    .space {
+        height: 5px;
+    }
+
+    /* Step 4 - Order Confirmation Styling */
+    .order-confirmation {
+        text-align: center;
+        padding: 50px 20px;
+        background-color: #fff;
+        border-radius: 10px;
+    }
+
+    .success-icon img {
+        width: 57px;
+        margin-bottom: 17px;
+        margin-top: -25px;
+    }
+
+    .order-message h2 {
+        font-size: 18px;
+        color: #000;
+        font-weight: 500;
+    }
+
+    .order-message p {
+        font-size: 14px;
+        color: #777777;
+        margin-top: -8px;
+    }
+
+    .qr-code img {
+        width: 150px;
+        height: 150px;
+        margin: 20px 0 40px;
+    }
+
+    .itm-qty {
+        display: flex;
+        justify-content: space-between;
+        text-align: center;
+        padding-bottom: 14px;
+    }
+
+    .itm-qty .summary-label {
+        padding-bottom: 5px;
+        font-weight: 600;
+        padding-right: 5px;
+    }
+
+    .download-btn {
+        background-color: #a9a500;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        display: inline-block;
+    }
+
+    .no-products {
+        display: none;
+        color: black;
+        text-align: center;
+        font-size: 20px;
+        font-weight: 400;
+        width: 100%;
+        padding: 27vh 0;
+    }
+    .summary{
+        display: flex;
+    }
+    /* share Button */
+    .share-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .share-btn {
+        background-color: #a9a500;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+        padding: 10px;
+    }
+
+    .share-options {
+        display: none;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+    }
+
+    .share-options a {
+        display: flex;
+        align-items: center;
+        margin: 5px 0;
+        text-decoration: none;
+        padding: 10px;
+        border-radius: 5px;
+        color: #fff;
+        font-size: 14px;
+    }
+
+    .share-options img {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+    }
+
+    .whatsapp-btn {
+        background-color: #25D366;
+    }
+
+    .facebook-btn {
+        background-color: #1877f2;
+    }
+
+    .x-btn {
+        background-color: #000;
+    }
+
+    .share-btn:focus+.share-options,
+    .share-btn:active+.share-options {
+        display: block;
+    }
+
+    @media(max-width:650px) {
+        .login-wrap {
+            min-height: 100vh;
+            margin-top: 0vh;
+        }
+
+        .tabs-container {
+            overflow-x: auto;
+            white-space: nowrap;
+            border-bottom: 0px solid #ccc;
+            margin-bottom: 5px;
+        }
+
+        .tabs-container::-webkit-scrollbar {
+            height: 0px;
+        }
+    }
+    .navbar {
 
     display: none;
-  }
-  .web-footer {
+        }
+        .web-footer {
 
-    display: none;
-  }
-  .second-next {
+        display: none;
+        }
+        .my-4 {
 
-    background: #a9a500;
-    border-radius: 26px
-  }
-  .item-row {
-
-    padding: 7px 0px 7px 0px;
-    font-weight: 100;
-  }
-  .item-name {
-
-    font-weight: bold !important;
-    font-size: small;
-  }
-  .rate {
-
-    font-weight: bold !important;
-    font-size: small;
-  }
-
-  .company-image {
-
-    height : 11rem;
-
-  }
-  .item-main-image {
-
-    border-radius : 8px;
-  }
-  .order-status {
-
-    color: #a9a500;;
-  }
-  @media only screen and (max-width: 600px) {
-      .company-image {
-          height : 7rem !important;
-          margin-bottom: 2rem;
-      }
-      .container {
-
-        padding: 0px !important;
-        margin: 0px !important;
-      }
-  }
-  </style>
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+    }
+</style>
 {% endblock style %}
 
 {% block page_content %}
 
 <div class="login-wrap">
-    <div class="login-html" >
-      <div class="logo-image text-center mb-5">
-        <img class="company-image" style="height : 11rem;" src="/files/forever.png">
-      </div>
-        <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab hidden">Check Customer</label>
-        <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab hidden">Order Details</label>
+    <div class="login-html">
+        <!-- Logo that remains constant -->
+        <div class="company-logo">
+            <img src="{{ logo_image }}" alt="Company Logo">
+        </div>
+
         <div class="login-form">
-            <div class="sign-in-htm">
-                <div id="customer-div" class="group">
+            <!-- Step 1 -->
+            <div id="step1" class="step active">
+                <div class="group">
                     <label for="customer" class="label">Customer</label>
                     <input id="customer" type="text" class="input">
                 </div>
-                <div id="customer-group-div" class="group hidden">
-                    <label for="customerGroup" class="label">Customer Group</label>
-                    <input id="customerGroup" type="text" class="input">
-                </div>
-                <div id="customer-mobile-div" class="group hidden">
-                    <label for="mobile" class="label">Mobile</label>
-                    <input id="mobile" type="text" class="input">
-                </div>
-                <div id="check-customer-first" class="group">
-                    <input id="check-customer" type="submit" class="button" value="Next">
-                </div>
-                <div id="process-to-first" class="group second-next text-center hidden">
-                  <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab m-0 mt-3 mb-1 pt-1">Next</label>
+                <div class="group">
+                    <input id="next1" type="button" class="button" value="Next">
                 </div>
             </div>
-            <div class="sign-up-htm">
-                <div class="item-section row mb-4" style="font-size: 12px; color: rgb(0, 0, 0);">
-                  {% if items %}
-                    {% for item in items %}
-                    <div class="col-xs-12 item mb-1" >
-                        <div class="row item-row">
-                            <div class="col-xs-10 row">
-                              <div class="col-xs-3 p-0">
-                                  <div class="item-image pl-2">
-                                     <img class="item-main-image" src="{{ item.image }}">
-                                  </div>
-                              </div>
-                              <div class="col-xs-9">
-                                  <p class="m-0 item-name" id="{{ item.item_code }}">{{ item.item_name }}</p>
-                                  <span class="m-0">{{ item.item_code }}</span>
-                                  <p class="m-0 rate"><strong>{{ item.standard_selling_rate }} USD</strong> </p>
-                                  <span class="m-0">{% if item.limit %}{{ item.limit }} pc {% else %} {% endif %}</span>
-                                  <input type="hidden" class="item-id" value="{{ item.item_code }}">
-                                  <input type="hidden" class="item-limit" value="{{ item.limit or 0 }}">
-                                  <input type="hidden" class="item-price" value="{{ item.standard_selling_rate or 0 }}">
-                              </div>
+
+            <!-- Step 2 -->
+            <div id="step2" class="step">
+                <div class="group">
+                    <label for="id" class="label">FBO ID</label>
+                    <input id="id" type="text" class="input">
+                </div>
+                <div class="group">
+                    <label for="name" class="label">Full Name</label>
+                    <input id="name" type="text" class="input">
+                </div>
+                <div class="group">
+                    <label for="mobile" class="label">Mobile Number</label>
+                    <input id="mobile" type="text" class="input">
+                </div>
+                <div class="group">
+                    <label for="customerGroup" class="label">Group</label>
+                    <input id="customerGroup" type="text" class="input">
+                </div>
+                <div class="group">
+                    <input id="next2" type="button" class="button" value="Next">
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div id="step3" class="step">
+                <div class="group">
+                    <!-- Tabs for Product Categories -->
+                    <div class="tabs-container">
+                        <div class="tabs">
+                            <div class="tab-item active" data-category="all">All</div>
+                            {% for ig in item_groups %}
+                                {% if ig.name != "All Item Groups" %}
+                                    <div class="tab-item" data-category="{{ ig.modify_name }}">{{ ig.name }}</div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Product Listing -->
+                    <div class="product-list">
+                        <!-- fine fragrances -->
+                        {% if items %}
+                            {% for item in items %}
+                                <div class="product-card" data-category="{{ item.item_group_modify }}">
+                                    <div class="product-image">
+                                        <img src="{{ item.image }}" alt="{{ item.item_name }}">
+                                    </div>
+                                    <div class="product-info">
+                                        <h4>{{ item.item_name }}™</h4>
+                                        <div class="item">{{ item.item_code }}</div>
+                                        <div class="price">MRP: {{ item.standard_selling_rate or "" }} BDT</div>
+                                        <div class="stock in-stock">Limit: {{ item.limit or "Not Set"}}</div>
+                                        <input type="hidden" class="item-id" value="{{ item.item_code }}">
+                                        <input type="hidden" class="item-limit" value="{{ item.limit or 0 }}">
+                                        <input type="hidden" class="item-price" value="{{ item.standard_selling_rate or 0 }}">
+                                    </div>
+                                    <div class="quantity-control">
+                                        <input type="text" id="quantity-input" class="quantity-input" placeholder="QTY"
+                                            data-product="{{ item.item_name }}™">
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+
+                            <div class="no-products" style="display: none;">
+                                No items found!
                             </div>
-                            <div class="col-xs-2">
-                              <div id="quantity-div" class="group">
-                                <label for="quantity" class="label text-center m-0">Qty</label>
-                                <input id="quantity" type="int" class="input mt-1 text-center rate-input">
-                            </div>
+                        {% endif %}
+                        <div class="search-filter">
+                            <div class="summary-section">
+                                <div class="itm-qty">
+                                    <div class="summary" style="width: 35%;">
+                                        <div class="summary-label">Items: </div>
+                                        <div class="summary-value"><span id="total-items">0</span></div>
+                                    </div>
+                                    <div class="summary" style="width: 20%;">
+                                        <img src="line.png" alt="line">
+                                    </div>
+                                    <div class="summary">
+                                        <div class="summary-label">Quantity: </div>
+                                        <div class="summary-value"><span id="total-quantity">0</span></div>
+                                    </div>
+                                </div>
+                                <!-- Order Button -->
+                                <button id="next3" class="proceed-btn">PLACE ORDER</button>
                             </div>
                         </div>
-                      </div>
-                      {% endfor %}
-                    {% else %}
-                      <div class="col-xs-12 mb-5 text-center">
-                          <h1 class="mt-5" style="color: #a9a500;">No Item Added</h1>
                     </div>
-                    {% endif %}
-                    <div class="col-xs-12 row price-section hidden mt-5">
-                        <div class="col-xs-8"><p class="m-0">Total Qty</p></div>
-                        <div class="col-xs-4 text-right"><p id="total-qty" class="total-qty m-0"></p></div>
-                        <div class="col-xs-8"><p class="m-0">Sub Total</p></div>
-                        <div class="col-xs-4 text-right"><p id="total-amount" class="total-amount m-0"></p></div>
-                        <div class="col-xs-8"><p class="m-0">Vat (5%)</p></div>
-                        <div class="col-xs-4 text-right"><p id="total-vat" class="total-vat m-0"></p></div>
-                        <div class="col-xs-8" style="color: #a9a500;"><p class="m-0">Total Amount</p></div>
-                        <div class="col-xs-4 text-right" style="color: #a9a500;"><p id="total-amm" class="total-amm m-0"></p></div>
-                    </div>
-                    {% if items %}
-                    <div id="process-to-last" class="group col-xs-12 mt-5">
-                        <input id="process-to-last" type="submit" class="button" value="Preview">
-                    </div>
-                    <div id="order-create" class="group col-xs-12 mt-5 hidden">
-                        <input id="order-create" type="submit" class="button" value="Preocess Order">
-                    </div>
-                    {% endif %}
                 </div>
-              <div id="qr-section" class="qr-section text-center hidden">
-                    <div class="order-status mb-5">
-                        <h1 class="mt-5" style="color: #a9a500;">Order Submited</h1>
-                        <p class="mb-5">Thank You For Your Order</p>
+
+            </div>
+
+            <!-- Step 4 -->
+            <div id="step4" class="step">
+                <div class="order-confirmation">
+                    <!-- Success Icon -->
+                    <div class="success-icon">
+                        <img class="m-0" src="check.png" alt="Success Icon">
                     </div>
-                    <div class="row mt-5">
+
+                    <!-- Order Submitted Message -->
+                    <div class="order-message">
+                        <h2>Order Submitted</h2>
+                        <p>Thank you for your order!</p>
+                    </div>
+
+                    <!-- QR Code -->
+                     <!-- QR Code -->
+                    <div class="row mt-5 mb-5">
                         <div class="col-xs-3"></div>
                         <div class="col-xs-6">
                             <div id="qrcode" class="text-center"></div>
                         </div>
                         <div class="col-xs-3"></div>
                     </div>
-                    <div id="download-qr" class="group mb-5" style="margin-top: 4rem;">
-                        <input id="download-qr" type="submit" class="button" value="Download QR Code">
+
+                    <!-- Download QR Code Button -->
+                    <button id="download-qr" class="download-btn">Download QR Code</button>
+
+                    <!-- Share Button -->
+                    <div class="share-container hidden">
+                        <button class="share-btn download-btn">
+                            <img src="share.png" alt="Share" width="13"> Share
+                        </button>
+                        <div class="share-options">
+                            <a href="https://api.whatsapp.com/send?text=your_share_text" target="_blank"
+                                class="whatsapp-btn">
+                                <img src="whatsapp.png" alt="WhatsApp Icon"> WhatsApp
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
-	</div>
+    </div>
 </div>
 
 
-
-  <!-- <div class="form-container">
-    <h4 class="text-center">Customer Form</h4>
-    <div class="form-group">
-      <label for="customer">Customer</label>
-      <input type="text" id="customer" placeholder="Enter customer">
-    </div>
-    <div id="customer-group-div" class="form-group hidden">
-      <label for="customerGroup">Customer Group</label>
-      <input type="text" id="customerGroup" placeholder="Enter customer group">
-    </div>
-    <div id = "customer-mobile-div" class="form-group hidden">
-      <label for="mobile">Mobile</label>
-      <input type="text" id="mobile" placeholder="Enter mobile number">
-    </div>
-    <button id="check-customer" class="btn" >Submit</button>
-  </div> -->
 {% endblock page_content %}
 {% block script %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+
 <script>
-      frappe.ready(function() {
-          $("#check-customer").click(function() {
-              var customer = $('#customer').val();
-              let args = {
-                customer: customer,
-              }
-              frappe.call({
-                  btn: this,
-                  method: "forever.www.apporder.check_customer_information",
-                  args: args,
-                  callback: function(r) {
-                      if (r.message.customer_group) {
-                          $('#customerGroup').val(r.message.customer_group);
-                          $('#mobile').val(r.message.mobile);
-                          $("#customer-group-div").removeClass("hidden");
-                          $("#customer-mobile-div").removeClass("hidden");
-                          $("#check-customer-first").addClass("hidden");
-                          $("#process-to-first").removeClass("hidden");
-                      }
-                  }
-              })
-          });
+    document.querySelector('.share-btn').addEventListener('click', function () {
+        var shareOptions = document.querySelector('.share-options');
+        if (shareOptions.style.display === 'block') {
+            shareOptions.style.display = 'none';
+        } else {
+            shareOptions.style.display = 'block';
+        }
+    });
 
-          $("#process-to-last").click(function() {
-              var total_qty = 0;
-              var total_amount = 0
-              var total_vat = 0
+    document.addEventListener("DOMContentLoaded", function () {
+        const tabs = document.querySelectorAll('.tab-item');
+        const products = document.querySelectorAll('.product-card');
+        const noProductsMessage = document.querySelector('.no-products');
 
-              $('.item').each(function() {
-                  var qty = $(this).find('#quantity').val();
-                  var limit = $(this).find('.item-limit').val();
-                  var itemId = $(this).find('.item-id').val();
-                  if (parseFloat(qty)) {
-                      total_qty += parseFloat(qty)
-                  }
-                  if (limit > 0 && qty > limit) {
-                      frappe.throw({ message: __(`Qty cannot greater then limit for item ${itemId}.`)});
-                  }
-              })
-              if (total_qty < 1 ) {
-                  frappe.throw({ message: __(`No qty found,please set qty for items.`)});
-              }
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function () {
+                // Remove 'active' class from all tabs and add to clicked one
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
 
-              $('.item').each(function() {
-                  var qty = $(this).find('#quantity').val();
-                  var limit = $(this).find('.item-limit').val();
-                  var price = $(this).find('.item-price').val();
-                  var rate = qty * price
-                  total_amount += rate
+                // Get selected category
+                const selectedCategory = tab.getAttribute('data-category');
+                let productFound = false;
 
-                  if (!parseFloat(qty) > 0){
-                      $(this).find('.item-limit').parent('div').parent('div').parent('div').hide()
-                  }
-              })
-              if (total_qty < 1 ) {
-                  frappe.throw({ message: __(`No qty found,please set qty for items.`)});
-              }
-              let amount = total_amount;
-              let formattedAmount = new Intl.NumberFormat('en-BD', {
-                  style: 'currency',
-                  currency: 'USD',
-                  minimumFractionDigits: 2
-              }).format(amount);
+                // Show/Hide products based on selected category
+                products.forEach(product => {
+                    if (selectedCategory === 'all' || product.getAttribute('data-category') === selectedCategory) {
+                        product.style.display = 'flex';
+                        productFound = true;
+                    } else {
+                        product.style.display = 'none';
+                    }
+                });
 
-              let vat = (5 * total_amount) / 100;
-              let formattedVat = new Intl.NumberFormat('en-BD', {
-                  style: 'currency',
-                  currency: 'USD',
-                  minimumFractionDigits: 2
-              }).format(vat);
-
-              var main_total = amount + vat
-              let formattedMainTotal = new Intl.NumberFormat('en-BD', {
-                  style: 'currency',
-                  currency: 'USD',
-                  minimumFractionDigits: 2
-              }).format(main_total);
-              document.getElementById("total-qty").innerHTML = total_qty
-              document.getElementById("total-amount").innerHTML = formattedAmount
-              document.getElementById("total-vat").innerHTML = formattedVat
-              document.getElementById("total-amm").innerHTML = formattedMainTotal
-              $(".price-section").removeClass("hidden")
-              $("#process-to-last").addClass("hidden")
-              $("#order-create").removeClass("hidden")
-          });
-
-
-          $("#order-create").click(function() {
-            var customer = $('#customer').val();
-              var customer_group = $('#customerGroup').val();
-              var itemsWithQty = [];
-              var total_qty = 0;
-
-              $('.item').each(function() {
-                  var qty = $(this).find('#quantity').val();
-                  var itemId = $(this).find('.item-id').val();
-                  if (parseFloat(qty)) {
-                      itemsWithQty.push({"item" : itemId,"qty" : qty});
-                      total_qty += parseFloat(qty)
-                  }
-              })
-              let args = {
-                customer: customer,
-                customer_group: customer_group,
-                items : itemsWithQty
-              }
-              frappe.call({
-                  btn: this,
-                  method: "forever.www.apporder.create_sales_invoice",
-                  args: args,
-                  callback: function(r) {
-                      $(".item-section").addClass("hidden");
-                      $("#order-createt").addClass("hidden");
-                      if (r.message) {
-                          var invoiceId = r.message;
-                          var qrCode = new QRCode(document.getElementById("qrcode"), {
-                              text: invoiceId,
-                              width: 180,
-                              height: 180
-                          });
-                      }
-                      $("#qr-section").removeClass("hidden");
-                  }
-              })
-          })
-          $("#download-qr").click(function() {
-              var element = document.getElementById('qrcode');
-              html2pdf()
-                  .from(element)
-                  .save('sales-invoice-qrcode.pdf');
-          });
-
+                // Show "No products found" message if no products are visible
+                if (!productFound) {
+                    noProductsMessage.style.display = 'block';
+                } else {
+                    noProductsMessage.style.display = 'none';
+                }
+            });
         });
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        const next1Button = document.getElementById('next1');
+        const customerInput = document.getElementById('customer');
+        const nameInput = document.getElementById('id');
+
+        next1Button.addEventListener('click', function () {
+            // Get the value from the first step input
+            const customerValue = customerInput.value;
+
+            // Set the value in the second step input
+            nameInput.value = customerValue;
+
+            // Move to the next step
+            document.getElementById('step1').classList.remove('active');
+            document.getElementById('step2').classList.add('active');
+        });
+    });
+    // Getting elements for steps
+    const step1 = document.getElementById("step1");
+    const step2 = document.getElementById("step2");
+    const step3 = document.getElementById("step3");
+    const step4 = document.getElementById("step4");
+
+    const next1 = document.getElementById("next1");
+    const next2 = document.getElementById("next2");
+    const next3 = document.getElementById("next3");
+
+    const placeOrder = document.getElementById("placeOrder");
+
+      // Show Step 2
+  next1.addEventListener("click", function () {
+      // Basic validation for step 1
+      const customer = document.getElementById("customer").value;
+
+      if (customer === "") {
+          alert("Please enter the customer name.");
+          return;
+      }else{
+
+        let args = {
+            customer: customer,
+        }
+        frappe.call({
+            btn: this,
+            method: "forever.www.apporder.check_customer_information",
+            args: args,
+            callback: function(r) {
+                console.log()
+                if (r.message.customer_group) {
+                    $('#customerGroup').val(r.message.customer_group);
+                    $('#mobile').val(r.message.mobile);
+                    $('#name').val(r.message.name);
+                }
+            }
+        })
+
+      }
+      step1.classList.remove("active");
+      step2.classList.add("active");
+  });
+
+    // Show Step 3
+    next2.addEventListener("click", function () {
+        // Basic validation for step 2
+        const customerGroup = document.getElementById("customerGroup").value;
+        const mobile = document.getElementById("mobile").value;
+        if (customerGroup === "" || mobile === "") {
+            alert("Please fill all fields.");
+            return;
+        }
+        step2.classList.remove("active");
+        step3.classList.add("active");
+    });
+
+    // Show Step 4 (Order Summary)
+    next3.addEventListener("click", function () {
+        // No specific validation for step 3 in this case
+        // step3.classList.remove("active");
+        // step4.classList.add("active");
+        var customer = $('#customer').val();
+        var customer_group = $('#customerGroup').val();
+        var itemsWithQty = [];
+        var total_qty = 0;
+        var error = 0
+        $('.product-card').each(function() {
+            var qty = $(this).find('#quantity-input').val();
+            var itemId = $(this).find('.item-id').val();
+            if (parseFloat(qty)) {
+                itemsWithQty.push({"item" : itemId,"qty" : parseFloat(qty)});
+                total_qty += parseFloat(qty)
+            }
+        })
+        let args = {
+            customer: customer,
+            customer_group: customer_group,
+            items : itemsWithQty
+        }
+        if (total_qty > 0) {
+
+            frappe.call({
+                btn: this,
+                method: "forever.www.apporder.create_sales_invoice",
+                args: args,
+                callback: function(r) {
+                    if (r.message) {
+                        var invoiceId = r.message;
+                        var qrCode = new QRCode(document.getElementById("qrcode"), {
+                            text: invoiceId,
+                            width: 220,
+                            height: 220
+                        });
+                        step3.classList.remove("active");
+                        step4.classList.add("active");
+                    }
+                }
+            })
+        }else{
+            alert("No Quantity Selected!");
+        }
+    });
+    $("#download-qr").click(function() {
+        var element = document.getElementById('qrcode');
+        html2pdf()
+            .from(element)
+            .save('sales-invoice-qrcode.pdf');
+    });
+    // Final Step: Place Order
+    placeOrder.addEventListener("click", function () {
+        alert("Order placed successfully!");
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        function updateTotalQuantity() {
+            let totalQuantity = 0;
+            let total_amount = 0
+            let items = 0
+            $('.product-card').each(function() {
+                var qty = $(this).find('#quantity-input').val();
+                var limit = $(this).find('.item-limit').val();
+                if (limit > 0 && parseFloat(qty) > limit) {
+                    $(this).find('#quantity-input').val(0);
+                    alert(`Qty cannot greater then limit for item`);
+                    return;
+                }
+                if (parseFloat(qty)) {
+                    totalQuantity += parseFloat(qty)
+                    var price = $(this).find('.item-price').val();
+                    items += 1
+                }
+            })
+            $('#total-quantity').text(totalQuantity);
+            $('#total-items').text(items);
+        }
+        $('.quantity-input').on('input', updateTotalQuantity);
+    });
 </script>
 {% endblock script %}

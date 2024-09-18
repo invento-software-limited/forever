@@ -1,44 +1,83 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:item_code",
- "creation": "2024-09-12 15:37:42.106234",
+ "autoname": "format:LIMIT - {####}",
+ "creation": "2024-09-17 11:20:36.033021",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "item_code",
-  "column_break_gyhk",
-  "limit"
+  "from_date",
+  "to_date",
+  "column_break_yhvn",
+  "show_out_of_stock_products",
+  "section_break_nbnw",
+  "items",
+  "amended_from"
  ],
  "fields": [
   {
-   "fieldname": "item_code",
-   "fieldtype": "Link",
+   "fieldname": "from_date",
+   "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "Item",
-   "options": "Item",
-   "reqd": 1,
-   "unique": 1
+   "label": "From Date",
+   "reqd": 1
   },
   {
-   "fieldname": "column_break_gyhk",
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "To Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_yhvn",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "limit",
-   "fieldtype": "Int",
-   "in_list_view": 1,
-   "label": "Limit",
-   "reqd": 1
+   "default": "1",
+   "fieldname": "show_out_of_stock_products",
+   "fieldtype": "Check",
+   "label": "Show out of stock products"
+  },
+  {
+   "fieldname": "section_break_nbnw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Item Limit"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Item Selling Limit",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Item Selling Limit",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "index_web_pages_for_search": 1,
+ "is_submittable": 1,
  "links": [],
- "modified": "2024-09-12 15:39:23.022827",
+ "modified": "2024-09-17 12:49:07.689446",
  "modified_by": "Administrator",
  "module": "Forever",
  "name": "Item Selling Limit",
- "naming_rule": "By fieldname",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

@@ -7,24 +7,51 @@ def check_customer_information(customer):
     if customer:
         if frappe.db.exists("Customer",customer):
             customer_doc = frappe.get_doc("Customer",customer)
-            return {"has_customer" : "yes","customer_group" : customer_doc.customer_group,"mobile":customer_doc.mobile}
-        else:
-            frappe.throw("No customer found")
+            return {"has_customer" : "yes","customer_group" : customer_doc.customer_group,"mobile":customer_doc.mobile,"name" : customer_doc.customer_name}
         
 def get_context(context):
     data = []
-    items = frappe.get_all("Item",fields=["item_code","item_name","standard_selling_rate","image"])
+    items = frappe.get_all("Item",fields=["item_code","item_name","standard_selling_rate","image","item_group"])
     for item in items:
-        limit = frappe.db.get_value("Item Selling Limit",{"item_code":item.get("item_code")},"limit")
+        limit = frappe.db.get_value(
+            'Item Limit',
+            {
+                'item_code':item.get("item_code"),
+                'from_date': ['<=', frappe.utils.today()],
+                'to_date': ['>=', frappe.utils.today()],
+                'docstatus' : 1
+            }
+            ,["limit"],debug=True)
+        
         data_dict = {
             "item_code" : item.get("item_code"),
             "item_name" : item.get("item_name"),
             "limit" : limit,
             "standard_selling_rate" : item.get("standard_selling_rate"),
-            "image" : item.get("image")
+            "image" : item.get("image"),
+            "item_group" : item.get("item_group"),
+            "item_group_modify" : item.get("item_group").replace(" ","_")
         }
         data.append(data_dict)
     context.items = data
+    
+    item_group = frappe.get_all("Item Group","name",pluck="name")
+    group_data = []
+    for ig in item_group:
+        group_data.append({
+            "name" : ig,
+            "modify_name" : ig.replace(" ","_")
+        })
+    context.item_groups = group_data
+    
+    logo_image = frappe.db.get_single_value("Website Settings", "app_logo")
+    if logo_image:
+        context.logo_image = logo_image
+    
+    check_image = frappe.db.get_single_value("Website Settings", "check_image")
+    if check_image:
+        context.check_image = check_image
+    
 
 @frappe.whitelist(allow_guest=True)
 def create_sales_invoice(customer,customer_group,items):
