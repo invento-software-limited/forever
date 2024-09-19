@@ -50,7 +50,20 @@ def get_context(context):
     
 
 @frappe.whitelist(allow_guest=True)
-def create_sales_invoice(customer,customer_group,items):
+
+def create_sales_invoice(customer,customer_group,mobile,items):
+    if not frappe.db.exists("Customer Group",customer_group):
+        customer_group_doc = frappe.new_doc("Customer Group")
+        customer_group_doc.customer_group_name = customer_group
+        customer_group_doc.save()
+        
+    if not frappe.db.exists("Customer",customer):
+        customer_doc = frappe.new_doc("Customer")
+        customer_doc.customer_name = customer
+        customer_doc.customer_type = "Company"
+        customer_doc.customer_group = customer_group
+        customer_doc.mobile = mobile
+        customer_doc.save()
     try:
         customer_discount_percentage = frappe.db.get_value("Customer Group",customer_group,"discount")
         items = json.loads(items)
@@ -62,6 +75,8 @@ def create_sales_invoice(customer,customer_group,items):
         si.updated_customer_group = customer_group
         si.update_stock = 1
         
+        sub_total = 0
+        
         if items:
             for it in items:
                 item = frappe.get_doc("Item",it.get("item"))
@@ -69,6 +84,8 @@ def create_sales_invoice(customer,customer_group,items):
                     rate_with_discount = item.standard_selling_rate - ((customer_discount_percentage * item.standard_selling_rate ) / 100)
                 else:
                     rate_with_discount = item.standard_selling_rate
+                sub_total += rate_with_discount
+                
                 data_dict = {
                         "item_code": item.item_code or item.item_code or "_Test Item",
                         "item_name": item.item_name or "_Test Item",
@@ -80,9 +97,11 @@ def create_sales_invoice(customer,customer_group,items):
                         "conversion_factor": item.get("conversion_factor", 1)
                     }
                 si.append("items",data_dict)
-
+                
+        si.total = sub_total
+        
         si.save()
         
         return si.name
     except:
-        pass
+        return "Error"

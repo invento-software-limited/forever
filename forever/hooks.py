@@ -130,7 +130,7 @@ doc_events = {
 		  "validate": "forever.forever.doc_events.item_price.extend_validate"
     },
     "Sales Invoice" : {
-      "on_submit": "forever.forever.doc_events.sales_invoice.extended_on_submit"
+      "before_submit": "forever.forever.doc_events.sales_invoice.extended_on_submit"
     }
 }
 
