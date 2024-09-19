@@ -7,7 +7,7 @@ def check_customer_information(customer):
     if customer:
         if frappe.db.exists("Customer",customer):
             customer_doc = frappe.get_doc("Customer",customer)
-            return {"has_customer" : "yes","customer_group" : customer_doc.customer_group,"mobile":customer_doc.mobile,"name" : customer_doc.customer_name}
+            return {"has_customer" : "yes","customer_group" : customer_doc.customer_group,"mobile":customer_doc.mobile,"name" : customer_doc.customer_name,"customer_group" : customer_doc.customer_group}
         
 def get_context(context):
     data = []
