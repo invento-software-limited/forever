@@ -541,7 +541,9 @@
                     <select id="customerGroup" class="input">
                         <option value="" disabled selected>Select Group</option>
                         {% for cg in customer_groups %}
+                        {% if cg != "All Customer Groups" %}
                             <option value="{{ cg }}">{{ cg }}</option>
+                        {% endif %}
                         {% endfor %}
                     </select>
                 </div>
