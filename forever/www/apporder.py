@@ -47,7 +47,9 @@ def get_context(context):
     logo_image = frappe.db.get_single_value("Website Settings", "app_logo")
     if logo_image:
         context.logo_image = logo_image
-    
+        
+    customer_groups = frappe.get_all("Customer Group","name",pluck="name")
+    context.customer_groups = customer_groups
 
 @frappe.whitelist(allow_guest=True)
 

@@ -77,7 +77,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-09-19 09:44:31.048712",
+ "modified": "2024-09-22 17:16:31.016615",
  "modified_by": "Administrator",
  "module": "Forever",
  "name": "Item Selling Limit",
@@ -85,6 +85,7 @@
  "owner": "Administrator",
  "permissions": [
   {
+   "cancel": 1,
    "create": 1,
    "delete": 1,
    "email": 1,
@@ -94,9 +95,11 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
+   "submit": 1,
    "write": 1
   },
   {
+   "cancel": 1,
    "create": 1,
    "delete": 1,
    "email": 1,
@@ -106,9 +109,11 @@
    "report": 1,
    "role": "Sales Manager",
    "share": 1,
+   "submit": 1,
    "write": 1
   },
   {
+   "cancel": 1,
    "create": 1,
    "delete": 1,
    "email": 1,
@@ -118,6 +123,21 @@
    "report": 1,
    "role": "Stock Manager",
    "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "submit": 1,
    "write": 1
   }
  ],

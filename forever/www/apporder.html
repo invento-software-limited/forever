@@ -538,7 +538,12 @@
                 </div>
                 <div class="group">
                     <label for="customerGroup" class="label">Group</label>
-                    <input id="customerGroup" type="text" class="input">
+                    <select id="customerGroup" class="input">
+                        <option value="" disabled selected>Select Group</option>
+                        {% for cg in customer_groups %}
+                            <option value="{{ cg }}">{{ cg }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="group">
                     <input id="next2" type="button" class="button" value="Next">
@@ -573,7 +578,7 @@
                                         <h4>{{ item.item_name }}™</h4>
                                         <div class="item">{{ item.item_code }}</div>
                                         <div class="price">MRP: {{ item.standard_selling_rate or "" }} BDT</div>
-                                        <div class="stock in-stock">Limit: {{ item.limit or " "}}</div>
+                                        <div class="stock in-stock">{% if item.limit %} Limit: {{ item.limit or " "}} {% endif %}</div>
                                         <input type="hidden" class="item-id" value="{{ item.item_code }}">
                                         <input type="hidden" class="item-limit" value="{{ item.limit or 0 }}">
                                         <input type="hidden" class="item-price" value="{{ item.standard_selling_rate or 0 }}">
