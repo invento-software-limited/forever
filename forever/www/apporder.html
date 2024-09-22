@@ -573,7 +573,7 @@
                                         <h4>{{ item.item_name }}™</h4>
                                         <div class="item">{{ item.item_code }}</div>
                                         <div class="price">MRP: {{ item.standard_selling_rate or "" }} BDT</div>
-                                        <div class="stock in-stock">Limit: {{ item.limit or "Not Set"}}</div>
+                                        <div class="stock in-stock">Limit: {{ item.limit or " "}}</div>
                                         <input type="hidden" class="item-id" value="{{ item.item_code }}">
                                         <input type="hidden" class="item-limit" value="{{ item.limit or 0 }}">
                                         <input type="hidden" class="item-price" value="{{ item.standard_selling_rate or 0 }}">
@@ -820,7 +820,11 @@
                         var qrCode = new QRCode(document.getElementById("qrcode"), {
                             text: invoiceId,
                             width: 220,
-                            height: 220
+                            height: 220,
+                            color: {
+                                dark: "#000000", // QR code color (black)
+                                light: "#ffffff" // Background color (white)
+                            }
                         });
                         step3.classList.remove("active");
                         step4.classList.add("active");
@@ -831,16 +835,20 @@
             alert("No Quantity Selected!");
         }
     });
-    $("#download-qr").click(function() {
-        var element = document.getElementById('qrcode');
-        html2pdf()
-            .from(element)
-            .save('sales-invoice-qrcode.pdf');
-    });
-    // Final Step: Place Order
-    placeOrder.addEventListener("click", function () {
-        alert("Order placed successfully!");
-    });
+    // $("#download-qr").click(function() {
+    //     var element = document.getElementById('qrcode');
+    //     html2pdf()
+    //         .from(element)
+    //         .save('sales-invoice-qrcode.pdf');
+    // });
+    document.getElementById('download-qr').addEventListener('click', function() {
+            let canvas = document.querySelector('#qrcode canvas'); // Select the generated QR code canvas
+            let link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');  // Convert canvas to image data URL
+            link.download = 'invoice_qrcode.png';  // Set the filename for download
+            link.click();  // Trigger the download
+        });
+
 </script>
 <script>
     $(document).ready(function() {
