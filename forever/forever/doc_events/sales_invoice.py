@@ -1,6 +1,6 @@
 import frappe
 
-def extended_on_submit(doc,method=None):
+def extended_validate(doc,method=None):
     if doc.customer_group != doc.updated_customer_group:
         customer = frappe.get_doc("Customer",doc.customer)
         customer.customer_group = doc.updated_customer_group
