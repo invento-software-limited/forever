@@ -15,8 +15,19 @@ def get_customer_group_discount_percentage(customer_rank):
     return discount
 
 def get_context(context):
+    rank = frappe.local.request.args.get('rank')  # 'rank' is the parameter
+    customer = frappe.local.request.args.get('customer')  # 'rank' is the parameter
+    mobile = frappe.local.request.args.get('mobile')  # 'rank' is the parameter
+    order_type = frappe.local.request.args.get('ordertype')  # 'rank' is the parameter
+
+    context.customer = customer
+    context.rank = rank
+    context.mobile = mobile
+    context.order_type = order_type
+
+    discount = get_customer_group_discount_percentage(rank)
     data = []
-    items = frappe.get_all("Item",fields=["item_code","item_name","standard_selling_rate","image","item_group"])
+    items = frappe.get_all("Item",fields=["item_code","item_name","standard_selling_rate","image","item_group","cc"])
     for item in items:
         limit = frappe.db.get_value(
             'Item Limit',
@@ -26,19 +37,25 @@ def get_context(context):
                 'to_date': ['>=', frappe.utils.today()],
                 'docstatus' : 1
             }
-            ,["limit"],debug=True)
+            ,["limit"])
         
         data_dict = {
             "item_code" : item.get("item_code"),
             "item_name" : item.get("item_name"),
             "limit" : limit,
-            "standard_selling_rate" : item.get("standard_selling_rate"),
             "image" : item.get("image"),
             "item_group" : item.get("item_group"),
-            "item_group_modify" : item.get("item_group").replace(" ","_")
+            "item_group_modify" : item.get("item_group").replace(" ","_"),
+            "cc" : item.get("cc")
         }
+        if discount:
+            price = item.get("standard_selling_rate") - ((discount * item.get("standard_selling_rate")) / 100)
+            data_dict["standard_selling_rate"] = price
+        else:
+            data_dict["standard_selling_rate"] = item.get("standard_selling_rate")
+
         data.append(data_dict)
-    context.items = data
+    context.itemss = data
     
     item_group = frappe.get_all("Item Group","name",pluck="name")
     group_data = []
@@ -57,8 +74,7 @@ def get_context(context):
     context.customer_groups = customer_groups
 
 @frappe.whitelist(allow_guest=True)
-
-def create_sales_invoice(customer,customer_group,mobile,items):
+def create_sales_invoice(customer,customer_group,mobile,items,order_type):
     if not frappe.db.exists("Customer Group",customer_group):
         customer_group_doc = frappe.new_doc("Customer Group")
         customer_group_doc.customer_group_name = customer_group
@@ -80,6 +96,7 @@ def create_sales_invoice(customer,customer_group,mobile,items):
         si.company = frappe.defaults.get_defaults().company
         si.customer = customer
         si.updated_customer_group = customer_group
+        si.order_type = order_type
         si.update_stock = 1
         
         sub_total = 0
@@ -112,3 +129,33 @@ def create_sales_invoice(customer,customer_group,mobile,items):
         return si.name
     except:
         return "Error"
+
+@frappe.whitelist(allow_guest=True)
+def make_cart_page(customer_group,items):
+    items = json.loads(items)
+    discount = get_customer_group_discount_percentage(customer_group)
+    result = []
+    if items:
+        for it in items:
+            item = frappe.get_doc("Item",it.get("item"))
+            if discount:
+                rate_with_discount = item.standard_selling_rate - ((discount * item.standard_selling_rate ) / 100)
+                amount = float(it.get("qty")) * rate_with_discount
+                cc = float(it.get("qty")) * item.cc
+            else:
+                rate_with_discount = item.standard_selling_rate
+                amount = float(it.get("qty")) * rate_with_discount
+                cc = float(it.get("qty")) * item.cc
+            
+            data_dict = {
+                    "item_code": item.item_code or item.item_code or "",
+                    "item_name": item.item_name or "",
+                    "rate" : rate_with_discount,
+                    "qty": float(it.get("qty")),
+                    "amount": amount,
+                    "cc": cc or "",
+                    "image" : item.image
+                }
+            result.append(data_dict)
+    
+    return result

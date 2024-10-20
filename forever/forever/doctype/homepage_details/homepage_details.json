@@ -1,0 +1,67 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-10-15 15:43:26.593419",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "catalouge",
+  "column_break_qcns",
+  "company_policy",
+  "sec__12",
+  "table_wtqp"
+ ],
+ "fields": [
+  {
+   "fieldname": "catalouge",
+   "fieldtype": "Attach",
+   "in_list_view": 1,
+   "label": "Catalouge",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_qcns",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company_policy",
+   "fieldtype": "Attach",
+   "in_list_view": 1,
+   "label": "Company policy",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sec__12",
+   "fieldtype": "Section Break",
+   "label": "Brand Material Images"
+  },
+  {
+   "fieldname": "table_wtqp",
+   "fieldtype": "Table",
+   "options": "Brand Material Image"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-10-15 15:53:01.916765",
+ "modified_by": "Administrator",
+ "module": "Forever",
+ "name": "Homepage Details",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

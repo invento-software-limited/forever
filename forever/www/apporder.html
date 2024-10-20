@@ -1,504 +1,7 @@
 
 {% extends "templates/web.html" %}
 {% block style %}
-<style>
-    body {
-        margin: 0;
-        color: #6a6f8c;
-        background: #c8c8c8;
-        font: 600 16px/18px 'Open Sans', sans-serif;
-        background-image: url(bg.jpg);
-        background-size: cover;
-        background-repeat: no-repeat;
-    }
-
-    *,
-    :after,
-    :before {
-        box-sizing: border-box;
-    }
-
-    .clearfix:after,
-    .clearfix:before {
-        content: '';
-        display: table;
-    }
-
-    .clearfix:after {
-        clear: both;
-        display: block;
-    }
-
-    a {
-        color: inherit;
-        text-decoration: none;
-    }
-
-    .login-wrap {
-        width: 100%;
-        margin: auto;
-        max-width: 525px;
-        min-height: 98vh;
-        position: relative;
-        background: #ffffff;
-        box-shadow: -6px 10px 24px 0px rgba(0, 0, 0, 0.1);
-        margin-top: 1vh;
-        overflow-y: scroll;
-    }
-
-    .login-html {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        padding: 18px 22px 13px 22px;
-        background: #ffffff;
-        display: flex;
-        flex-direction: column;
-        align-content: center;
-        justify-content: center;
-    }
-
-    .login-form {
-        min-height: 345px;
-        position: relative;
-        perspective: 1000px;
-        transform-style: preserve-3d;
-    }
-
-    .login-form .group {
-        margin-bottom: 15px;
-    }
-
-    .login-form .group .label,
-    .login-form .group .input,
-    .login-form .group .button {
-        width: 100%;
-        color: #000000;
-        display: block;
-        padding-bottom: 10px;
-        font-size: 15px;
-        font-weight: 400;
-    }
-
-    .login-form .group .input,
-    .login-form .group .button {
-        border: none;
-        padding: 12px 13px;
-        border-radius: 5px;
-        background: rgb(200 200 200 / 55%);
-    }
-
-    .login-form .group .button {
-        background: #a9a500;
-        cursor: pointer;
-        color: #fff;
-        font-weight: 500;
-        text-transform: uppercase;
-    }
-
-    /* Custom styles for steps */
-    .step {
-        display: none;
-    }
-
-    .step.active {
-        display: block;
-    }
-
-    /* Company logo */
-    .company-logo {
-        text-align: center;
-        margin-bottom: 30px;
-    }
-
-    .company-logo img {
-        height: 115px;
-    }
-
-    /* product step */
-    .search-filter {
-        position: sticky;
-        padding: 10px 0px;
-        top: 0px;
-        background: #ffffff;
-        margin-left: 0px !important;
-        border-radius: 0px;
-    }
-
-    .search-filter input {
-        width: 80%;
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-    }
-
-    .filter-btn {
-        background-color: #f1c40f;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        width: 18%;
-    }
-
-    .tabs {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-    }
-
-    .tab-item {
-        padding: 10px 15px;
-        border-radius: 5px;
-        background-color: #f1c40f;
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: 500;
-        color: #1c1c1c;
-    }
-
-    .tab-item.active {
-        background-color: #95791f;
-        color: #fff;
-    }
-
-    .product-list {
-        margin-bottom: 20px;
-    }
-
-    .product-card {
-        display: flex;
-        justify-content: space-between;
-        background-color: #fff;
-        padding: 5px;
-        border-radius: 5px;
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
-        align-items: center;
-    }
-
-    /* Product Image */
-    .product-image {
-        width: 80px;
-        height: 80px;
-        margin-right: 15px;
-        overflow: hidden;
-        flex-shrink: 0;
-        border-radius: 5px;
-        background: #ebebeb8c;
-    }
-
-    .product-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
-
-    .product-info {
-        width: 60%;
-    }
-
-    .product-info h4 {
-        margin: 0;
-        font-size: 13px;
-        font-weight: 500;
-        color: #000;
-    }
-
-    .product-info .item {
-        font-size: 12px;
-    }
-
-    .product-info .price {
-        color: #000;
-        font-weight: 500;
-        font-size: 13px;
-    }
-
-
-    .product-info .stock {
-        font-size: 12px;
-    }
-
-    .stock.in-stock {
-        color: #a9a500;
-    }
-
-    .stock.out-of-stock {
-        color: #e74c3c;
-    }
-
-    .quantity-control {
-        display: flex;
-        align-items: center;
-    }
-
-    .quantity-btn {
-        background-color: #f1c40f;
-        border: none;
-        padding: 8px;
-        border-radius: 15px;
-        cursor: pointer;
-    }
-
-    .quantity-input {
-        width: 80px;
-        text-align: center;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        margin: 0 10px;
-        padding: 9px 0;
-    }
-
-    .proceed-btn {
-        background-color: #a9a500;
-        color: white;
-        font-weight: bold;
-        border: none;
-        width: 100%;
-        padding: 11px;
-        border-radius: 5px;
-        cursor: pointer;
-        text-align: center;
-        margin: 5px 0;
-        font-size: 14px;
-    }
-
-    .tabs-container {
-        overflow-x: auto;
-        white-space: nowrap;
-        border-bottom: 1px solid #ccc;
-        margin-bottom: 15px;
-        margin-top: -10px;
-    }
-
-    .tabs {
-        display: inline-flex;
-    }
-
-    .tab-item {
-        display: inline-block;
-        padding: 10px 20px;
-        cursor: pointer;
-        white-space: nowrap;
-        margin-right: 5px;
-    }
-
-    .tab-item.active {
-        font-weight: bold;
-    }
-
-    /* Scroll behavior */
-    .tabs-container::-webkit-scrollbar {
-        height: 6px;
-    }
-
-    .tabs-container::-webkit-scrollbar-thumb {
-        background-color: #888;
-        border-radius: 4px;
-    }
-
-    .tabs-container::-webkit-scrollbar-thumb:hover {
-        background-color: #555;
-    }
-
-    /* Summary Section Styling */
-    .summary-section {
-        margin-bottom: 6px;
-        padding: 15px 10px 15px;
-        background-color: rgb(200 200 200 / 21%);
-        border-radius: 5px;
-        margin-top: -8px;
-    }
-
-    .summary-row {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-    }
-
-    .summary-label {
-        color: #000000;
-        font-weight: 500;
-        font-size: 14px;
-    }
-
-    .summary-value {
-        color: #000000;
-        font-weight: 500;
-        font-size: 14px;
-    }
-
-    .summary-row.total {
-        font-size: 18px;
-        font-weight: bold;
-        border-top: 1px solid #ddd;
-        padding-top: 10px;
-        color: #F5A623;
-    }
-
-    .space {
-        height: 5px;
-    }
-
-    /* Step 4 - Order Confirmation Styling */
-    .order-confirmation {
-        text-align: center;
-        padding: 50px 20px;
-        background-color: #fff;
-        border-radius: 10px;
-    }
-
-    .success-icon img {
-        width: 57px;
-        margin-bottom: 17px;
-        margin-top: -25px;
-    }
-
-    .order-message h2 {
-        font-size: 18px;
-        color: #000;
-        font-weight: 500;
-    }
-
-    .order-message p {
-        font-size: 14px;
-        color: #777777;
-        margin-top: -8px;
-    }
-
-    .qr-code img {
-        width: 150px;
-        height: 150px;
-        margin: 20px 0 40px;
-    }
-
-    .itm-qty {
-        display: flex;
-        justify-content: space-between;
-        text-align: center;
-        padding-bottom: 14px;
-    }
-
-    .itm-qty .summary-label {
-        padding-bottom: 5px;
-        font-weight: 600;
-        padding-right: 5px;
-    }
-
-    .download-btn {
-        background-color: #a9a500;
-        border: none;
-        color: white;
-        padding: 10px 20px;
-        font-size: 16px;
-        border-radius: 8px;
-        cursor: pointer;
-        display: inline-block;
-    }
-
-    .no-products {
-        display: none;
-        color: black;
-        text-align: center;
-        font-size: 20px;
-        font-weight: 400;
-        width: 100%;
-        padding: 27vh 0;
-    }
-    .summary{
-        display: flex;
-    }
-    /* share Button */
-    .share-container {
-        position: relative;
-        display: inline-block;
-    }
-
-    .share-btn {
-        background-color: #a9a500;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        cursor: pointer;
-        padding: 10px;
-    }
-
-    .share-options {
-        display: none;
-        position: absolute;
-        top: 50px;
-        left: 0;
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-        padding: 10px;
-    }
-
-    .share-options a {
-        display: flex;
-        align-items: center;
-        margin: 5px 0;
-        text-decoration: none;
-        padding: 10px;
-        border-radius: 5px;
-        color: #fff;
-        font-size: 14px;
-    }
-
-    .share-options img {
-        width: 20px;
-        height: 20px;
-        margin-right: 10px;
-    }
-
-    .whatsapp-btn {
-        background-color: #25D366;
-    }
-
-    .facebook-btn {
-        background-color: #1877f2;
-    }
-
-    .x-btn {
-        background-color: #000;
-    }
-
-    .share-btn:focus+.share-options,
-    .share-btn:active+.share-options {
-        display: block;
-    }
-
-    @media(max-width:650px) {
-        .login-wrap {
-            min-height: 100vh;
-            margin-top: 0vh;
-        }
-
-        .tabs-container {
-            overflow-x: auto;
-            white-space: nowrap;
-            border-bottom: 0px solid #ccc;
-            margin-bottom: 5px;
-        }
-
-        .tabs-container::-webkit-scrollbar {
-            height: 0px;
-        }
-    }
-    .navbar {
-
-    display: none;
-        }
-        .web-footer {
-
-        display: none;
-        }
-        .my-4 {
-
-        margin-top: 0px !important;
-        margin-bottom: 0px !important;
-    }
-</style>
+<link rel="stylesheet" href="css/style.css">
 {% endblock style %}
 
 {% block page_content %}
@@ -512,9 +15,9 @@
 
         <div class="login-form">
             <!-- Step 1 -->
-            <div id="step1" class="step active">
+            <div id="step1">
                 <div class="group">
-                    <label for="customer" class="label">Customer</label>
+                    <label for="customer" class="label">FBO ID<spna style="color: red;"> *</spna></label>
                     <input id="customer" type="text" class="input">
                 </div>
                 <div class="group">
@@ -523,23 +26,23 @@
             </div>
 
             <!-- Step 2 -->
-            <div id="step2" class="step">
+            <div id="step2" class="hidden">
                 <div class="group">
-                    <label for="id" class="label">FBO ID</label>
-                    <input id="id" type="text" class="input">
+                    <label for="id" class="label">FBO ID<spna style="color: red;"> *</spna></label>
+                    <input id="id" type="text" class="input" required>
                 </div>
                 <div class="group">
-                    <label for="name" class="label">Full Name</label>
-                    <input id="name" type="text" class="input">
+                    <label for="name" class="label">Full Name<spna style="color: red;"> *</spna></label>
+                    <input id="name" type="text" class="input" required>
                 </div>
                 <div class="group">
-                    <label for="mobile" class="label">Mobile Number</label>
-                    <input id="mobile" type="text" class="input">
+                    <label for="mobile" class="label">Mobile Number<spna style="color: red;"> *</spna></label>
+                    <input id="mobile" type="text" class="input" required>
                 </div>
                 <div class="group">
-                    <label for="customerGroup" class="label">Group</label>
-                    <select id="customerGroup" class="input">
-                        <option value="" disabled selected>Select Group</option>
+                    <label for="customerGroup" class="label">Rank<spna style="color: red;"> *</spna></label>
+                    <select id="customerGroup" class="input" required>
+                        <option value="" disabled selected>Select Rank</option>
                         {% for cg in customer_groups %}
                         {% if cg != "All Customer Groups" %}
                             <option value="{{ cg }}">{{ cg }}</option>
@@ -548,121 +51,25 @@
                     </select>
                 </div>
                 <div class="group">
-                    <input id="next2" type="button" class="button" value="Next">
+                    <label for="orderGroup" class="label">Order Type<spna style="color: red;"> *</spna></label>
+                    <select id="orderGroup" class="input" required>
+                        <option value="" disabled selected>Select Type</option>
+                        <option value="Online">Online</option>
+                        <option value="In Person">In Person</option>
+                    </select>
+                </div>
+                <div  class="search-filter-cart3">
+                    <div class="summary-section">
+                        <!-- Order Button -->
+                        <button id="back4" class="proceed-btn proceed-btn-back">Back</button>
+                        <button id="next2" class="proceed-btn proceed-btn-next">Next</button>
+                    </div>
                 </div>
             </div>
-
             <!-- Step 3 -->
-            <div id="step3" class="step">
-                <div class="group">
-                    <!-- Tabs for Product Categories -->
-                    <div class="tabs-container">
-                        <div class="tabs">
-                            <div class="tab-item active" data-category="all">All</div>
-                            {% for ig in item_groups %}
-                                {% if ig.name != "All Item Groups" %}
-                                    <div class="tab-item" data-category="{{ ig.modify_name }}">{{ ig.name }}</div>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-
-                    <!-- Product Listing -->
-                    <div class="product-list">
-                        <!-- fine fragrances -->
-                        {% if items %}
-                            {% for item in items %}
-                                <div class="product-card" data-category="{{ item.item_group_modify }}">
-                                    <div class="product-image">
-                                        <img src="{{ item.image }}" alt="{{ item.item_name }}">
-                                    </div>
-                                    <div class="product-info">
-                                        <h4>{{ item.item_name }}™</h4>
-                                        <div class="item">{{ item.item_code }}</div>
-                                        <div class="price">MRP: {{ item.standard_selling_rate or "" }} BDT</div>
-                                        <div class="stock in-stock">{% if item.limit %} Limit: {{ item.limit or " "}} {% endif %}</div>
-                                        <input type="hidden" class="item-id" value="{{ item.item_code }}">
-                                        <input type="hidden" class="item-limit" value="{{ item.limit or 0 }}">
-                                        <input type="hidden" class="item-price" value="{{ item.standard_selling_rate or 0 }}">
-                                    </div>
-                                    <div class="quantity-control">
-                                        <input type="text" id="quantity-input" class="quantity-input" placeholder="QTY"
-                                            data-product="{{ item.item_name }}™">
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        {% else %}
-
-                            <div class="no-products" style="display: none;">
-                                No items found!
-                            </div>
-                        {% endif %}
-                        <div class="search-filter">
-                            <div class="summary-section">
-                                <div class="itm-qty">
-                                    <div class="summary" style="width: 35%;">
-                                        <div class="summary-label">Items: </div>
-                                        <div class="summary-value"><span id="total-items">0</span></div>
-                                    </div>
-                                    <div class="summary" style="width: 20%;">
-                                        <img src="line.png" alt="line">
-                                    </div>
-                                    <div class="summary">
-                                        <div class="summary-label">Quantity: </div>
-                                        <div class="summary-value"><span id="total-quantity">0</span></div>
-                                    </div>
-                                </div>
-                                <!-- Order Button -->
-                                <button id="next3" class="proceed-btn">PLACE ORDER</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
+            <div id="step3" class="step"></div>
             <!-- Step 4 -->
-            <div id="step4" class="step">
-                <div class="order-confirmation">
-                    <!-- Success Icon -->
-                    <div class="success-icon">
-                        <img class="m-0" src="check.png" alt="Success Icon">
-                    </div>
-
-                    <!-- Order Submitted Message -->
-                    <div class="order-message">
-                        <h2>Order Submitted</h2>
-                        <p>Thank you for your order!</p>
-                    </div>
-
-                    <!-- QR Code -->
-                     <!-- QR Code -->
-                    <div class="row mt-5 mb-5">
-                        <div class="col-xs-3"></div>
-                        <div class="col-xs-6">
-                            <div id="qrcode" class="text-center"></div>
-                        </div>
-                        <div class="col-xs-3"></div>
-                    </div>
-
-                    <!-- Download QR Code Button -->
-                    <button id="download-qr" class="download-btn">Download QR Code</button>
-
-                    <!-- Share Button -->
-                    <div class="share-container hidden">
-                        <button class="share-btn download-btn">
-                            <img src="share.png" alt="Share" width="13"> Share
-                        </button>
-                        <div class="share-options">
-                            <a href="https://api.whatsapp.com/send?text=your_share_text" target="_blank"
-                                class="whatsapp-btn">
-                                <img src="whatsapp.png" alt="WhatsApp Icon"> WhatsApp
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            <div id="step4" class="step"></div>
         </div>
     </div>
 </div>
@@ -673,50 +80,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 
-<script>
-    document.querySelector('.share-btn').addEventListener('click', function () {
-        var shareOptions = document.querySelector('.share-options');
-        if (shareOptions.style.display === 'block') {
-            shareOptions.style.display = 'none';
-        } else {
-            shareOptions.style.display = 'block';
-        }
-    });
-
-    document.addEventListener("DOMContentLoaded", function () {
-        const tabs = document.querySelectorAll('.tab-item');
-        const products = document.querySelectorAll('.product-card');
-        const noProductsMessage = document.querySelector('.no-products');
-
-        tabs.forEach(tab => {
-            tab.addEventListener('click', function () {
-                // Remove 'active' class from all tabs and add to clicked one
-                tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-
-                // Get selected category
-                const selectedCategory = tab.getAttribute('data-category');
-                let productFound = false;
-
-                // Show/Hide products based on selected category
-                products.forEach(product => {
-                    if (selectedCategory === 'all' || product.getAttribute('data-category') === selectedCategory) {
-                        product.style.display = 'flex';
-                        productFound = true;
-                    } else {
-                        product.style.display = 'none';
-                    }
-                });
-
-                // Show "No products found" message if no products are visible
-                if (!productFound) {
-                    noProductsMessage.style.display = 'block';
-                } else {
-                    noProductsMessage.style.display = 'none';
-                }
-            });
-        });
-    });
+<script> 
     document.addEventListener('DOMContentLoaded', function () {
         const next1Button = document.getElementById('next1');
         const customerInput = document.getElementById('customer');
@@ -737,25 +101,24 @@
     // Getting elements for steps
     const step1 = document.getElementById("step1");
     const step2 = document.getElementById("step2");
-    const step3 = document.getElementById("step3");
-    const step4 = document.getElementById("step4");
 
     const next1 = document.getElementById("next1");
     const next2 = document.getElementById("next2");
-    const next3 = document.getElementById("next3");
 
     const placeOrder = document.getElementById("placeOrder");
 
       // Show Step 2
   next1.addEventListener("click", function () {
       // Basic validation for step 1
-      const customer = document.getElementById("customer").value;
+    const customer = document.getElementById("customer").value;
 
-      if (customer === "") {
-          alert("Please enter the customer name.");
-          return;
-      }else{
-
+    if (customer === "") {
+        frappe.show_alert({
+            message:__('Please enter the customer name.'),
+            indicator:'red'
+        }, 10);
+        return;
+    }else{
         let args = {
             customer: customer,
         }
@@ -771,116 +134,45 @@
                 }
             }
         })
-
-      }
-      step1.classList.remove("active");
-      step2.classList.add("active");
+        $("#step2").removeClass("hidden")
+        $("#step1").addClass("hidden")
+    }
   });
 
-    // Show Step 3
     next2.addEventListener("click", function () {
-        // Basic validation for step 2
-        const customerGroup = document.getElementById("customerGroup").value;
-        const mobile = document.getElementById("mobile").value;
-        if (customerGroup === "" || mobile === "") {
-            alert("Please fill all fields.");
-            return;
-        }
-        step2.classList.remove("active");
-        step3.classList.add("active");
-    });
-
-    // Show Step 4 (Order Summary)
-    next3.addEventListener("click", function () {
-        // No specific validation for step 3 in this case
-        // step3.classList.remove("active");
-        // step4.classList.add("active");
         var customer = $('#id').val();
         var customer_group = $('#customerGroup').val();
+        var order_group = $('#orderGroup').val();
         var mobile = $('#mobile').val();
-        var itemsWithQty = [];
-        var total_qty = 0;
-        var error = 0
-        $('.product-card').each(function() {
-            var qty = $(this).find('#quantity-input').val();
-            var itemId = $(this).find('.item-id').val();
-            if (parseFloat(qty)) {
-                itemsWithQty.push({"item" : itemId,"qty" : parseFloat(qty)});
-                total_qty += parseFloat(qty)
-            }
-        })
-        let args = {
-            customer: customer,
-            customer_group: customer_group,
-            mobile : mobile,
-            items : itemsWithQty
+        if (customer_group === "" || mobile === "" || order_group === null || customer_group == null || customer === "") {
+            frappe.show_alert({
+                message:__('Please fill all fields.'),
+                indicator:'red'
+            }, 10);
+            return;
         }
-        if (total_qty > 0) {
+        if (mobile.length < 11 || mobile.length > 11) {
+            // frappe.throw({ message: __("Mobile number invalid format ."), title: __("Format") });
+            
+        }
+        var bangladeshMobilePattern = /^01[3-9]\d{8}$/;
+        if (!bangladeshMobilePattern.test(mobile)) {
+            frappe.show_alert({
+                message:__('Mobile number invalid format .'),
+                indicator:'red'
+            }, 10);
+            return;
+        }
 
-            frappe.call({
-                btn: this,
-                method: "forever.www.apporder.create_sales_invoice",
-                args: args,
-                callback: function(r) {
-                    if (r.message) {
-                        var invoiceId = r.message;
-                        var qrCode = new QRCode(document.getElementById("qrcode"), {
-                            text: invoiceId,
-                            width: 220,
-                            height: 220,
-                            color: {
-                                dark: "#000000", // QR code color (black)
-                                light: "#ffffff" // Background color (white)
-                            }
-                        });
-                        step3.classList.remove("active");
-                        step4.classList.add("active");
-                    }
-                }
-            })
-        }else{
-            alert("No Quantity Selected!");
-        }
+        var currentDomain = window.location.origin;
+        var url = `/items?rank=${customer_group}&customer=${customer}&mobile=${mobile}&ordertype=${order_group}`
+        window.location.href = currentDomain + url;
     });
-    // $("#download-qr").click(function() {
-    //     var element = document.getElementById('qrcode');
-    //     html2pdf()
-    //         .from(element)
-    //         .save('sales-invoice-qrcode.pdf');
-    // });
-    document.getElementById('download-qr').addEventListener('click', function() {
-            let canvas = document.querySelector('#qrcode canvas'); // Select the generated QR code canvas
-            let link = document.createElement('a');
-            link.href = canvas.toDataURL('image/png');  // Convert canvas to image data URL
-            link.download = 'invoice_qrcode.png';  // Set the filename for download
-            link.click();  // Trigger the download
-        });
+    $('#back4').click(function() {
+        $("#step2").addClass("hidden")
+        $("#step1").removeClass("hidden")
+    });
+    
 
-</script>
-<script>
-    $(document).ready(function() {
-        function updateTotalQuantity() {
-            let totalQuantity = 0;
-            let total_amount = 0
-            let items = 0
-            $('.product-card').each(function() {
-                var qty = $(this).find('#quantity-input').val();
-                var limit = $(this).find('.item-limit').val();
-                if (limit > 0 && parseFloat(qty) > limit) {
-                    $(this).find('#quantity-input').val(0);
-                    alert(`Qty cannot greater then limit for item`);
-                    return;
-                }
-                if (parseFloat(qty)) {
-                    totalQuantity += parseFloat(qty)
-                    var price = $(this).find('.item-price').val();
-                    items += 1
-                }
-            })
-            $('#total-quantity').text(totalQuantity);
-            $('#total-items').text(items);
-        }
-        $('.quantity-input').on('input', updateTotalQuantity);
-    });
 </script>
 {% endblock script %}
