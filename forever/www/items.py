@@ -52,7 +52,7 @@ def get_context(context):
         }
         if discount:
             price = item.get("standard_selling_rate") - ((discount * item.get("standard_selling_rate")) / 100)
-            data_dict["standard_selling_rate"] = price
+            data_dict["standard_selling_rate"] = round(price,1)
         else:
             data_dict["standard_selling_rate"] = item.get("standard_selling_rate")
 

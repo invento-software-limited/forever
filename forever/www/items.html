@@ -481,8 +481,12 @@
             const ccValue = parseFloat(productCard.querySelector('.cc-value').dataset.cc);
             const totalCC = ccValue * quantity;
             const totalAmt = price * quantity;
-            productCard.querySelector('.total-amt .cc').textContent = `CC: ${totalCC.toFixed(1)}`;
-            productCard.querySelector('.total-amt .amt').textContent = `Amt: ${totalAmt.toFixed(0)}`;
+            if (ccValue) {
+                productCard.querySelector('.total-amt .cc').textContent = `CC: ${totalCC.toFixed(1)}`;
+            }
+            if (price) {
+                productCard.querySelector('.total-amt .amt').textContent = `Amt: ${totalAmt.toFixed(0)}`;
+            }
         });
     });
 </script>
