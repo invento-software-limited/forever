@@ -1,7 +1,8 @@
 
 {% extends "templates/web.html" %}
 {% block style %}
-<link rel="stylesheet" href="css/style.css">
+<!-- <link rel="stylesheet" href="css/style.css"> -->
+<link rel="stylesheet" href="css/order.css">
 {% endblock style %}
 
 {% block page_content %}
@@ -19,6 +20,12 @@
                     <input id="id" type="text" class="input" value="{{ customer }}">
                 </div>
                 <div class="group">
+                    <input id="customer_name" type="text" class="input" value="{{ customer_name }}">
+                </div>
+                <div class="group">
+                    <input id="customer_name_" type="text" class="input" value="{{ customer_name }}">
+                </div>
+                <div class="group">
                     <input id="mobile" type="text" class="input" value="{{ mobile }}">
                 </div>
                 <div class="group">
@@ -30,35 +37,34 @@
             </div>
 
             <!-- Step 3 -->
-             <div class="second-main">
-                <div class="search-filter">
-                    <div class="summary-section-new">
-                        <div class="itm-qty">
-                            <div class="summary" style="width: 35%;">
-                                <div class="summary-label">Quantity: </div>
-                                <div class="summary-value"><span id="total-quantity">0</span></div>
+
+
+            <!-- Step 3 -->
+            <div id="second-main" class="step3">
+                <div class="group">
+                    <div class="search-filter">
+                        <div class="summary-section">
+                            <div class="itm-qty">
+                                <div class="summary">
+                                    <div class="summary-label">Quantity</div>
+                                    <div class="summary-value"><span id="total-quantity">0</span></div>
+                                </div>
+                                <div class="summary">
+                                    <div class="summary-label">Amount</div>
+                                    <div class="summary-value"><span id="total-amount">0</span></div>
+                                </div>
+                                <div class="summary">
+                                    <div class="summary-label">CC</div>
+                                    <div class="summary-value"><span id="total-cc">0</span></div>
+                                </div>
                             </div>
-                            <div class="summary" style="width: 20%;">
-                                <img src="css/images/line.png" alt="line">
-                            </div>
-                            <div class="summary" style="width: 35%;">
-                                <div class="summary-label">Amount: </div>
-                                <div class="summary-value"><span id="total-amount">0</span></div>
-                            </div>
-                            <div class="summary" style="width: 20%;">
-                                <img src="css/images/line.png" alt="line">
-                            </div>
-                            <div class="summary" style="width: 35%;">
-                                <div class="summary-label">CC: </div>
-                                <div class="summary-value"><span id="total-cc">0</span></div>
-                            </div>
-                        </div>
+
                     </div>
-                </div>
-                <div id="step3">
-                    <div class="group">
+                    <!-- Tabs for Product Categories -->
+                    <div class="item_desription">
                         <div class="tabs-container">
                             <div class="tabs">
+                                
                                 <div class="tab-item active" data-category="all">All</div>
                                 {% for ig in item_groups %}
                                     {% if ig.name != "All Item Groups" %}
@@ -67,6 +73,7 @@
                                 {% endfor %}
                             </div>
                         </div>
+    
                         <!-- Product Listing -->
                         <div class="product-list">
                             <!-- fine fragrances -->
@@ -79,16 +86,25 @@
                                         <div class="product-info">
                                             <h4>{{ item.item_name }}™</h4>
                                             <div class="item">{{ item.item_code }}</div>
-                                            <div class="price">Your Price: {{ item.standard_selling_rate or "" }} BDT</div>
-                                            <div class="stock in-stock">{% if item.limit %} Limit: {{ item.limit or " "}} {% endif %}</div>
+                                            <div class="price" data-price = "{{ item.standard_selling_rate or '' }}">Your Price: {{ item.standard_selling_rate or "" }} BDT</div>
+                                            <div class="item cc-value" data-cc="{{ item.cc or '' }}">CC: {{ item.cc or "" }}</div>
                                             <input type="hidden" class="item-cc" value="{{ item.cc }}">
                                             <input type="hidden" class="item-id" value="{{ item.item_code }}">
                                             <input type="hidden" class="item-limit" value="{{ item.limit or 0 }}">
                                             <input type="hidden" class="item-price" value="{{ item.standard_selling_rate or 0 }}">
+    
                                         </div>
                                         <div class="quantity-control">
                                             <input type="text" id="quantity-input" class="quantity-input" placeholder="QTY"
-                                                data-product="{{ item.item_name }}™">
+                                            data-product="{{ item.item_name }}™">
+                                                <div class="total-amt">
+                                                    <div class="cc">
+                                                        CC: 0
+                                                    </div>
+                                                    <div class="amt">
+                                                        Amt: 0
+                                                    </div>
+                                                </div>
                                         </div>
                                     </div>
                                 {% endfor %}
@@ -98,77 +114,75 @@
                                     No items found!
                                 </div>
                             {% endif %}
-                            <div class="search-filter-cart2">
-                                <div class="summary-section">
+    
+                            <div class="search-filter">
+                                <div>
                                     <!-- Order Button -->
-                                    <button id="back2" class="proceed-btn proceed-btn-back">Back</button>
-                                    <button id="next3" class="proceed-btn proceed-btn-next">Next</button>
+                                    <button id="next3" class="proceed-btn">NEXT</button>
                                 </div>
+                            </div>
+                            <div class="back-home">
+                                <a href="/website">Back to home</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main-cart-div hidden">
+                        <div class="product-list cart-product-list"></div>
+                        <div class="search-filter-cart">
+                            <div class="search-filter">
+                                <div>
+                                    <!-- Order Button -->
+                                    <button id="next4" class="proceed-btn">PLACE ORDER</button>
+                                    <button id="item-back" class="proceed-btn">SELECT MORE</button>
+                                </div>
+                            </div>
+                            <div class="back-home">
+                                <a href="/website">Back to home</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="cart-product-list"></div>
-                <div  class="search-filter-cart hidden">
-                    <div class="summary-section">
-                        <!-- Order Button -->
-                        <button id="back1" class="proceed-btn proceed-btn-back">Back</button>
-                        <button id="next4" class="proceed-btn proceed-btn-next">Proceed Order</button>
-                    </div>
-                </div>
-             </div>
+            </div>
             
-
+        </div>
             <!-- Step 4 -->
             <div id="step4" class="step">
                 <div class="order-confirmation">
                     <!-- Success Icon -->
                     <div class="success-icon">
-                        <img class="m-0" src="css/images/check.png" alt="Success Icon">
+                        <img src="css/images/check.png" alt="Success Icon">
                     </div>
 
                     <!-- Order Submitted Message -->
-                    <div id="qr-div"  class="pt-5 pb-5">
+                    <div id="qr-div">
                         <div class="order-message">
-                            <h2>Order Submitted</h2>
-                            <p style="color: black;">{{ customer }}</p>
+                            <h2>Order Submitted by</h2>
+                            <h3 class="oname">{{ customer_name }}</h3>
+                            <p style="margin-top: -15px;padding-bottom: 5px;">FBO ID: {{ customer }}</p>
                             <p>Thank you for your order!</p>
                         </div>
-
+    
                         <!-- QR Code -->
-                         <!-- QR Code -->
-                        <div class="row mt-5 mb-5">
-                            <div class="col-xs-3"></div>
-                            <div class="col-xs-6">
-                                <div id="qrcode" class="text-center"></div>
-                                <p class="invoice-id mt-2" style="color: black;"></p>
-                            </div>
-                            <div class="col-xs-3"></div>
+                        <div id="qrcode" style="display: flex;flex-direction: row;justify-content: center;"></div>
+                        <p class="invoice-id mt-2" style="color: black;"></p>
+                    </div>
+                    <div class="button-container">
+                        <!-- Download QR Code Button -->
+                        {% if order_type == "In Person" %}
+                        <button id="download-qr" class="download-btn">Download QR Code</button>
+                    
+                        <!-- Share Button -->
+                        <div id="share" class="share-container">
                         </div>
+                        {% else %}
+                        <div id="share" class="share-container">
+                        </div>
+                        {% endif %}
                     </div>
 
-
-                    <!-- Download QR Code Button -->
-                    <div  class="search-filter-cart">
-                        <div class="">
-                            <!-- Order Button -->
-                            <button id="back3" class="proceed-btn proceed-btn-back">Home</button>
-                            <button id="download-qr" class="download-btn">Download QR Code</button>
-                        </div>
-                    </div>
-
-                    <!-- Share Button -->
-                    <div class="share-container hidden">
-                        <button class="share-btn download-btn">
-                            <img src="css/images/share.png" alt="Share" width="13"> Share
-                        </button>
-                        <div class="share-options">
-                            <a href="https://api.whatsapp.com/send?text=your_share_text" target="_blank"
-                                class="whatsapp-btn">
-                                <img src="css/images/whatsapp.png" alt="WhatsApp Icon"> WhatsApp
-                            </a>
-                        </div>
-                    </div>
+                </div>
+                <div class="back-home">
+                    <a href="/website">Back to home</a>
                 </div>
             </div>
 
@@ -225,7 +239,7 @@
     const step3 = document.getElementById("step3");
     const step4 = document.getElementById("step4");
     let cart_div = $('.cart-product-list')
-    let back1 = $('#back1')
+    let item_back = $('#item-back')
     let back2 = $('#back2')
     let setp3_2 = $('#step3')
 
@@ -267,27 +281,36 @@
                 if (r.message) {
                     cart_div.empty()
                     r.message.forEach(item => {
-                        let items_data = `<div class="product-card-cart">
-                            <div class="product-image-cart">
+                        
+                        let items_data = `<div class="product-card">
+                            <div class="product-image">
                                 <img src="${ item.image }" alt="${ item.item_name }">
                             </div>
-                            <div class="product-info-cart mt-1">
+                            <div class="product-info">
                                 <h4>${ item.item_name }™</h4>
                                 <div class="item">${ item.item_code }</div>
                                 <div class="price">Price: ${ item.rate } BDT</div>
+                                    <div class="item">CC: 0.2</div>
                             </div>
-                            <div class="product-qty mt-1">
-                                <div class="price">Qty<br> ${ item.qty }</div>
-                            </div>
-                            <div class="product-amount mt-1">
-                                <div class="price">Amount<br>${ item.amount } BDT</div>
+                            <div class="quantity-control">
+                                <input type="text" class="quantity-input" placeholder="${ item.qty }"
+                                    data-product="FOREVER SUPERGREENS™">
+                                    <div class="total-amt">
+                                        <div class="cc">
+                                            CC: ${ item.cc }
+                                        </div>
+                                        <div class="amt">
+                                            Amt: ${ item.amount }
+                                        </div>
+                                    </div>
                             </div>
                         </div>`
                         cart_div.append(items_data)
                     })
                     cart_div.removeClass("hidden")
-                    $(".search-filter-cart").removeClass("hidden")
-                    setp3_2.addClass("hidden")
+                    $(".main-cart-div").removeClass("hidden")
+                    $(".item_desription").addClass("hidden")
+                    // setp3_2.addClass("hidden")
                 }
             }
         })
@@ -299,6 +322,7 @@
             var customer_group = $('#customerGroup').val();
             var order_type = $('#orderGroup').val();
             var mobile = $('#mobile').val();
+            var customer_name = $('#customer_name').val();
             var itemsWithQty = [];
             var total_qty = 0;
             var error = 0
@@ -315,7 +339,8 @@
                 customer_group: customer_group,
                 mobile : mobile,
                 items : itemsWithQty,
-                order_type : order_type
+                order_type : order_type,
+                customer_name : customer_name
             }
             if (total_qty > 0) {
 
@@ -325,7 +350,7 @@
                     args: args,
                     callback: function(r) {
                         if (r.message) {
-                            var invoiceId = r.message;
+                            var invoiceId = r.message.order_id;
                             var qrCode = new QRCode(document.getElementById("qrcode"), {
                                 text: invoiceId,
                                 width: 220,
@@ -335,9 +360,14 @@
                                     light: "#ffffff" // Background color (white)
                                 }
                             });
-                            step3.classList.remove("active");
+                            $(".step3").addClass("hidden");
                             step4.classList.add("active");
-                            $(".invoice-id").text(r.message)
+                            $(".invoice-id").text(r.message.order_id)
+                            const shareText = `Order Number: ${r.message.order_id}, FBO ID: ${customer}, Customer Name: ${r.message.customer_name}`;
+                            let whatsapp = `<a href="https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}" target="_blank" class="share-btn download-btn">
+                                    <img src="css/images/whatsapp.png" alt="Share" width="20" style="margin-right: 5px;">WhatsApp Share
+                                </a>`
+                            $(".share-container").append(whatsapp)
                             $(".second-main").addClass("hidden")
                             $(".company-logo").removeClass("hidden")
 
@@ -356,10 +386,10 @@
         })
     });
 
-    $('#back1').click(function() {
-        cart_div.addClass("hidden")
-        $(".search-filter-cart").addClass("hidden")
-        setp3_2.removeClass("hidden")
+    $('#item-back').click(function() {
+        console.log("pp")
+        $(".main-cart-div").addClass("hidden")
+        $(".item_desription").removeClass("hidden")
     });
 
     $('#back2').click(function() {
@@ -377,7 +407,7 @@
     document.getElementById('download-qr').addEventListener('click', function() {
             html2canvas(document.getElementById('qr-div')).then(function(canvas) {
                 var link = document.createElement('a');
-                link.download = 'qr-div.png';
+                link.download = 'Invoice-QR.png';
                 link.href = canvas.toDataURL();
                 link.click();
             });
@@ -414,7 +444,7 @@
                     }
                 }
             })
-            console.log(totalcc)
+
             $('#total-quantity').text(totalQuantity);
             $('#total-cc').text(totalcc.toFixed(1));
             $('#total-amount').text(total_price.toFixed(1));
@@ -440,6 +470,20 @@
         $('.quantity-input').on('input', updateTotalQuantity);
         $('#customerGroup').on('input', updateTotalQuantity2);
         
+    });
+</script>
+<script>
+    document.querySelectorAll('.quantity-input').forEach(input => {
+        input.addEventListener('input', function() {
+            const quantity = parseFloat(this.value) || 0;
+            const productCard = this.closest('.product-card');
+            const price = parseFloat(productCard.querySelector('.price').dataset.price);
+            const ccValue = parseFloat(productCard.querySelector('.cc-value').dataset.cc);
+            const totalCC = ccValue * quantity;
+            const totalAmt = price * quantity;
+            productCard.querySelector('.total-amt .cc').textContent = `CC: ${totalCC.toFixed(1)}`;
+            productCard.querySelector('.total-amt .amt').textContent = `Amt: ${totalAmt.toFixed(0)}`;
+        });
     });
 </script>
 {% endblock script %}

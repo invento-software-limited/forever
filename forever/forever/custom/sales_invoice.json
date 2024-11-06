@@ -45,7 +45,7 @@
    "name": "Sales Invoice-custom_order_type",
    "no_copy": 0,
    "non_negative": 0,
-   "options": "Online\nIn Person",
+   "options": "Online or Whatsapp Order\nIn Person",
    "owner": "Administrator",
    "permlevel": 0,
    "precision": "",

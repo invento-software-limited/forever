@@ -1,0 +1,50 @@
+{% extends "templates/web.html" %}
+{% block style %}
+<link rel="stylesheet" href="css/other.css">
+{% endblock style %}
+
+{% block page_content %}
+<div class="container">
+    <div class="logo">
+        <a href="/website"><img  src="{{ logo_image }}" alt="Logo"></a>
+    </div>
+    <h2>All Notice</h2>
+    <ul class="notice-list">
+        {% for notice in notices %}
+        <li class="notice-item">
+            <div class="notice-info">
+                <h4 onclick="showPopup(`{{ notice.image }}`)"><a href="#">{{ notice.title }}</a></h4>
+                <div class="notice-date">
+                    <img src="css/images/date.png" alt="Date Icon">
+                    <p>{{ notice.date }}</p>
+                </div>
+            </div>
+            <button class="view-button" onclick="showPopup(`{{ notice.image }}`)">View</button>
+        </li>
+        {% endfor %}
+    </ul>
+    <div class="back">
+        <button><a href="/website">Back to home</a></button>
+    </div>
+    <p class="credit">Developed by <a href="https://invento.com.bd/">Invento Software Limited</a></p>
+</div>
+
+<div id="popup" class="popup">
+    <div class="popup-content">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <img id="popupImage" src="" alt="Popup Image">
+    </div>
+</div>
+
+{% endblock page_content %}
+{% block script %}
+<script>
+    function showPopup(imageSrc) {
+        document.getElementById("popupImage").src = imageSrc;
+        document.getElementById("popup").style.display = "flex";
+    }
+    function closePopup() {
+        document.getElementById("popup").style.display = "none";
+    }
+</script>
+{% endblock script %}

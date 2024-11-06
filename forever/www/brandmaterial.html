@@ -1,0 +1,36 @@
+{% extends "templates/web.html" %}
+{% block style %}
+<link rel="stylesheet" href="css/other.css">
+{% endblock style %}
+
+{% block page_content %}
+<div class="container">
+    <div class="logo">
+        <a href="/website"><img  src="{{ logo_image }}" alt="Logo"></a>
+    </div>
+    <h2>Brand Material</h2>
+    <div class="brand">
+        {% for material in brand_materials %}
+        <div class="box">
+            <img src="{{ material.image}}" alt="brand 1">
+            <div class="box-footer">
+                <span class="title">Brand Material 1</span>
+                <a href="{{ material.image}}" download>
+                    <img class="download-icon" src="css/images/download.svg" alt="download icon">
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="back">
+        <button><a href="/website">Back to home</a></button>
+    </div>
+
+    <p class="credit">Developed by <a href="https://invento.com.bd/">Invento Software Limited</a></p>
+</div>
+
+{% endblock page_content %}
+{% block script %}
+
+{% endblock script %}

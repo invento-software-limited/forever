@@ -19,11 +19,13 @@ def get_context(context):
     customer = frappe.local.request.args.get('customer')  # 'rank' is the parameter
     mobile = frappe.local.request.args.get('mobile')  # 'rank' is the parameter
     order_type = frappe.local.request.args.get('ordertype')  # 'rank' is the parameter
+    customer_name = frappe.local.request.args.get('customername')  # 'rank' is the parameter
 
     context.customer = customer
     context.rank = rank
     context.mobile = mobile
     context.order_type = order_type
+    context.customer_name = customer_name
 
     discount = get_customer_group_discount_percentage(rank)
     data = []
@@ -74,7 +76,7 @@ def get_context(context):
     context.customer_groups = customer_groups
 
 @frappe.whitelist(allow_guest=True)
-def create_sales_invoice(customer,customer_group,mobile,items,order_type):
+def create_sales_invoice(customer,customer_group,mobile,items,order_type,customer_name):
     if not frappe.db.exists("Customer Group",customer_group):
         customer_group_doc = frappe.new_doc("Customer Group")
         customer_group_doc.customer_group_name = customer_group
@@ -86,6 +88,8 @@ def create_sales_invoice(customer,customer_group,mobile,items,order_type):
         customer_doc.customer_type = "Company"
         customer_doc.customer_group = customer_group
         customer_doc.mobile = mobile
+        customer_doc.save()
+        customer_doc.customer_name = customer_name
         customer_doc.save()
     try:
         customer_discount_percentage = frappe.db.get_value("Customer Group",customer_group,"discount")
@@ -126,7 +130,7 @@ def create_sales_invoice(customer,customer_group,mobile,items,order_type):
         
         si.save()
         
-        return si.name
+        return { "order_id" : si.name, "customer_name" : customer_name }
     except:
         return "Error"
 
@@ -152,8 +156,8 @@ def make_cart_page(customer_group,items):
                     "item_name": item.item_name or "",
                     "rate" : rate_with_discount,
                     "qty": float(it.get("qty")),
-                    "amount": amount,
-                    "cc": cc or "",
+                    "amount": round(amount),
+                    "cc": round(cc,1) or "",
                     "image" : item.image
                 }
             result.append(data_dict)

@@ -6,6 +6,7 @@
  "engine": "InnoDB",
  "field_order": [
   "catalouge",
+  "product_list",
   "column_break_qcns",
   "company_policy",
   "sec__12",
@@ -39,12 +40,17 @@
    "fieldname": "table_wtqp",
    "fieldtype": "Table",
    "options": "Brand Material Image"
+  },
+  {
+   "fieldname": "product_list",
+   "fieldtype": "Attach",
+   "label": "Product List"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-10-15 15:53:01.916765",
+ "modified": "2024-11-05 09:54:04.672206",
  "modified_by": "Administrator",
  "module": "Forever",
  "name": "Homepage Details",
