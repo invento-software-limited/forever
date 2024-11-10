@@ -15,6 +15,7 @@ def get_customer_group_discount_percentage(customer_rank):
     return discount
 
 def get_context(context):
+    context.no_cache = 1
     rank = frappe.local.request.args.get('rank')  # 'rank' is the parameter
     customer = frappe.local.request.args.get('customer')  # 'rank' is the parameter
     mobile = frappe.local.request.args.get('mobile')  # 'rank' is the parameter
