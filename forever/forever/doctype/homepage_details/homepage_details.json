@@ -9,6 +9,8 @@
   "product_list",
   "column_break_qcns",
   "company_policy",
+  "number_section",
+  "whats_app_number",
   "sec__12",
   "table_wtqp"
  ],
@@ -45,12 +47,23 @@
    "fieldname": "product_list",
    "fieldtype": "Attach",
    "label": "Product List"
+  },
+  {
+   "fieldname": "number_section",
+   "fieldtype": "Section Break",
+   "label": "Number"
+  },
+  {
+   "fieldname": "whats_app_number",
+   "fieldtype": "Data",
+   "label": "Whats App Number",
+   "options": "Phone"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-11-05 09:54:04.672206",
+ "modified": "2024-11-26 15:34:29.709415",
  "modified_by": "Administrator",
  "module": "Forever",
  "name": "Homepage Details",

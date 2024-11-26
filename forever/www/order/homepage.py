@@ -1,6 +1,7 @@
 import frappe
 
 def get_context(context):
+    context.no_cache = 1
     catalouge = frappe.db.get_single_value("Homepage Details", "catalouge")
     policy = frappe.db.get_single_value("Homepage Details", "company_policy")
     prodcut_list = frappe.db.get_single_value("Homepage Details", "product_list")

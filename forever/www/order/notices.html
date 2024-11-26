@@ -1,6 +1,16 @@
 {% extends "templates/web.html" %}
 {% block style %}
-<link rel="stylesheet" href="css/other.css">
+<link rel="stylesheet" href="css/items.css">
+<style>
+    .navbar {
+
+        display: none;
+    }
+    .web-footer {
+
+        display: none;
+    }
+</style>
 {% endblock style %}
 
 {% block page_content %}
@@ -24,7 +34,7 @@
         {% endfor %}
     </ul>
     <div class="back">
-        <button><a href="/website">Back to home</a></button>
+        <button><a href="/order/homepage">Back to home</a></button>
     </div>
     <p class="credit">Developed by <a href="https://invento.com.bd/">Invento Software Limited</a></p>
 </div>

@@ -1,8 +1,7 @@
 
 {% extends "templates/web.html" %}
 {% block style %}
-<!-- <link rel="stylesheet" href="css/style.css"> -->
-<link rel="stylesheet" href="css/order.css">
+<link rel="stylesheet" href="css/items.css">
 {% endblock style %}
 
 {% block page_content %}
@@ -34,8 +33,10 @@
                 <div class="group">
                     <input id="orderGroup" type="text" class="input" value="{{ order_type }}">
                 </div>
+                <div class="group">
+                    <input id="whatsapp-number" type="text" class="input" value="{{ whatsapp_number or '' }}">
+                </div>
             </div>
-
             <!-- Step 3 -->
 
 
@@ -50,12 +51,12 @@
                                     <div class="summary-value"><span id="total-quantity">0</span></div>
                                 </div>
                                 <div class="summary">
-                                    <div class="summary-label">Amount</div>
-                                    <div class="summary-value"><span id="total-amount">0</span></div>
-                                </div>
-                                <div class="summary">
                                     <div class="summary-label">CC</div>
                                     <div class="summary-value"><span id="total-cc">0</span></div>
+                                </div>
+                                <div class="summary">
+                                    <div class="summary-label">Amount</div>
+                                    <div class="summary-value"><span id="total-amount">0</span></div>
                                 </div>
                             </div>
 
@@ -63,15 +64,7 @@
                     <!-- Tabs for Product Categories -->
                     <div class="item_desription">
                         <div class="tabs-container">
-                            <div class="tabs">
-                                
-                                <div class="tab-item active" data-category="all">All</div>
-                                {% for ig in item_groups %}
-                                    {% if ig.name != "All Item Groups" %}
-                                        <div class="tab-item" data-category="{{ ig.modify_name }}">{{ ig.name }}</div>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
+                            <p style="text-align: center;color: #000;">All Products</p>
                         </div>
     
                         <!-- Product Listing -->
@@ -92,7 +85,6 @@
                                             <input type="hidden" class="item-id" value="{{ item.item_code }}">
                                             <input type="hidden" class="item-limit" value="{{ item.limit or 0 }}">
                                             <input type="hidden" class="item-price" value="{{ item.standard_selling_rate or 0 }}">
-    
                                         </div>
                                         <div class="quantity-control">
                                             <input type="text" id="quantity-input" class="quantity-input" placeholder="QTY"
@@ -122,22 +114,49 @@
                                 </div>
                             </div>
                             <div class="back-home">
-                                <a href="/website">Back to home</a>
+                                <a href="/order/homepage">Back to home</a>
                             </div>
                         </div>
                     </div>
                     <div class="main-cart-div hidden">
+                        <div class="company-logo mb-4">
+                            <h2 style="color:#000; Font-size:20px;margin-bottom: 0px;font-weight:600;">Order Summary</h2>
+                        </div>
                         <div class="product-list cart-product-list"></div>
                         <div class="search-filter-cart">
+
+                            <div class="summery">
+                                <div style="text-align:left;" class="cart-summery">
+                                    <div class="Qty">
+                                        Quantity : <span id="total-quantity-2">0</span>
+                                    </div>
+                                    <div class="amt">
+                                        CC : <span id="total-cc-2">0</span>
+                                    </div>
+
+                                </div>
+                                <div class="cart-summery">
+                                    <div>
+                                        Sub-total :  <span id="total-amount-2">0</span>
+                                    </div>
+                                    <div class="amt">
+                                        VAT 5% :  <span id="percent-amount">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="grand-total">
+                                        Grand Total : <span id="grand-total">0</span>
+                                </div>
+
                             <div class="search-filter">
-                                <div>
+                                <div class="two-button">
                                     <!-- Order Button -->
+                                    <button id="item-back" class="proceed-btnn">EDIT</button>
                                     <button id="next4" class="proceed-btn">PLACE ORDER</button>
-                                    <button id="item-back" class="proceed-btn">SELECT MORE</button>
                                 </div>
                             </div>
                             <div class="back-home">
-                                <a href="/website">Back to home</a>
+                                <a href="/order/homepage">Back to home</a>
                             </div>
                         </div>
                     </div>
@@ -167,22 +186,29 @@
                         <p class="invoice-id mt-2" style="color: black;"></p>
                     </div>
                     <div class="button-container">
-                        <!-- Download QR Code Button -->
                         {% if order_type == "In Person" %}
-                        <button id="download-qr" class="download-btn">Download QR Code</button>
-                    
-                        <!-- Share Button -->
-                        <div id="share" class="share-container">
+                        <div id="download">
+                            <button id="download-qr" class="download-btn">Download QR Code</button>
+                            <p style="font-size: 14px;;line-height: 20px;color:#404040;margin-top: 1rem;">আপনার অর্ডার সম্পন্ন করার জন‍্য কিউ আর কোডটি ডাউনলোড করুন অথবা স্ক্রিনশট নিয়ে কাউন্টারে প্রদর্শন করুন কিংবা এই স্ক্রিনটি কাউন্টারে প্রদর্শন করুন।</p>
                         </div>
                         {% else %}
                         <div id="share" class="share-container">
+                            <a id="whatsapp-share-btn" href="#" target="_blank" class="share-btn whatsapp-btn download-btn">
+                                <img src="/order/css/images/whatsapp.png" alt="WhatsApp Icon" width="13"> Send to Official Whatsapp
+                            </a>
+                            <p style="font-size: 14px;;line-height: 20px;color:#404040;margin-top: 1rem;">আপনার অর্ডারটি সম্পন্ন করার জন‍্য প্রথমে স্ক্রিনশট নিয়ে রাখুন তারপর উপরের বাটনটি চেপে সরাসরি হোয়াটসএপ এ পাঠিয়ে দিন, সাথে স্ক্রিনশটটি হোয়াটস অ্যাপে পাঠান। অর্ডারটি কনফার্ম করার জন‍্য আপনাকে কল করা হবে । আপনার পেমেন্ট এবং কুরিয়ার এর ঠিকানা রেডি রাখুন। </p>
+                            <p style="font-size: 14px;;line-height: 20px;color:#404040;">বিঃদ্রঃ আপনাকে কল করার আগে পেমেন্ট পাঠাবেন না !</p>
                         </div>
                         {% endif %}
+                        
                     </div>
 
                 </div>
                 <div class="back-home">
-                    <a href="/website">Back to home</a>
+                    <a href="/order/homepage">Back to home</a>
+                </div>
+                <div class="credit">
+                    <p>Developed by <a href="https://invento.com.bd/">Invento Software Limited</a></p>
                 </div>
             </div>
 
@@ -240,6 +266,7 @@
     const step4 = document.getElementById("step4");
     let cart_div = $('.cart-product-list')
     let item_back = $('#item-back')
+    let top_summary_section = $('.summary-section')
     let back2 = $('#back2')
     let setp3_2 = $('#step3')
 
@@ -275,14 +302,14 @@
         }
         frappe.call({
             btn: this,
-            method: "forever.www.items.make_cart_page",
+            method: "forever.www.order.items.make_cart_page",
             args: args,
             callback: function(r) {
                 if (r.message) {
                     cart_div.empty()
                     r.message.forEach(item => {
                         
-                        let items_data = `<div class="product-card">
+                        let items_data = `<div class="product-card cart-item">
                             <div class="product-image">
                                 <img src="${ item.image }" alt="${ item.item_name }">
                             </div>
@@ -290,24 +317,26 @@
                                 <h4>${ item.item_name }™</h4>
                                 <div class="item">${ item.item_code }</div>
                                 <div class="price">Price: ${ item.rate } BDT</div>
-                                    <div class="item">CC: 0.2</div>
+                                <div class="item">CC: ${item.item_cc}</div>
                             </div>
-                            <div class="quantity-control">
-                                <input type="text" class="quantity-input" placeholder="${ item.qty }"
-                                    data-product="FOREVER SUPERGREENS™">
-                                    <div class="total-amt">
-                                        <div class="cc">
-                                            CC: ${ item.cc }
-                                        </div>
-                                        <div class="amt">
-                                            Amt: ${ item.amount }
-                                        </div>
+                            <div class="cart-control">
+                                <div class="cart">
+                                    <div class="Qty">
+                                        Qty : ${ item.qty }
                                     </div>
+                                    <div class="cc">
+                                        CC : ${item.cc}
+                                    </div>
+                                    <div class="amt">
+                                        Amt : BDT ${item.amount}
+                                    </div>
+                                </div>
                             </div>
                         </div>`
                         cart_div.append(items_data)
                     })
                     cart_div.removeClass("hidden")
+                    $(".summary-section").addClass("hidden")
                     $(".main-cart-div").removeClass("hidden")
                     $(".item_desription").addClass("hidden")
                     // setp3_2.addClass("hidden")
@@ -323,6 +352,11 @@
             var order_type = $('#orderGroup').val();
             var mobile = $('#mobile').val();
             var customer_name = $('#customer_name').val();
+            const whatsappNumber = $('#whatsapp-number').val();
+            const tax_amount = $('#percent-amount').text();
+            const numeric_tax_amount = parseFloat(tax_amount.replace(/[^\d.]/g, ''));
+            console.log(whatsappNumber)
+
             var itemsWithQty = [];
             var total_qty = 0;
             var error = 0
@@ -340,13 +374,13 @@
                 mobile : mobile,
                 items : itemsWithQty,
                 order_type : order_type,
-                customer_name : customer_name
+                customer_name : customer_name,
+                tax_amount : numeric_tax_amount
             }
             if (total_qty > 0) {
-
                 frappe.call({
                     btn: this,
-                    method: "forever.www.items.create_sales_invoice",
+                    method: "forever.www.order.items.create_sales_invoice",
                     args: args,
                     callback: function(r) {
                         if (r.message) {
@@ -356,24 +390,24 @@
                                 width: 220,
                                 height: 220,
                                 color: {
-                                    dark: "#000000", // QR code color (black)
-                                    light: "#ffffff" // Background color (white)
+                                    dark: "#000000",
+                                    light: "#ffffff"
                                 }
                             });
                             $(".step3").addClass("hidden");
                             step4.classList.add("active");
                             $(".invoice-id").text(r.message.order_id)
-                            const shareText = `Order Number: ${r.message.order_id}, FBO ID: ${customer}, Customer Name: ${r.message.customer_name}`;
-                            let whatsapp = `<a href="https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}" target="_blank" class="share-btn download-btn">
-                                    <img src="css/images/whatsapp.png" alt="Share" width="20" style="margin-right: 5px;">WhatsApp Share
-                                </a>`
-                            $(".share-container").append(whatsapp)
+                            const orderNumber = r.message.order_id;
+                            const fboId = customer;
+                            const customerName = r.message.customer_name;
+                            const shareText = `Order Number: ${orderNumber}, FBO ID: ${fboId}, Customer Name: ${customerName}`;
+                            const whatsappShareBtn = document.getElementById("whatsapp-share-btn");
+                            whatsappShareBtn.href = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodeURIComponent(shareText)}`;
                             $(".second-main").addClass("hidden")
-                            $(".company-logo").removeClass("hidden")
-
                         }
                     }
                 })
+                
             }else{
                 frappe.show_alert({
                     message:__('No Quantity Selected! Please Select Quantity'),
@@ -387,9 +421,9 @@
     });
 
     $('#item-back').click(function() {
-        console.log("pp")
         $(".main-cart-div").addClass("hidden")
         $(".item_desription").removeClass("hidden")
+        $(".summary-section").removeClass("hidden")
     });
 
     $('#back2').click(function() {
@@ -447,25 +481,45 @@
 
             $('#total-quantity').text(totalQuantity);
             $('#total-cc').text(totalcc.toFixed(1));
-            $('#total-amount').text(total_price.toFixed(1));
+            $('#total-amount').text(formatCurrency(total_price,"BD"));
+            $('#total-quantity-2').text(totalQuantity);
+            $('#total-cc-2').text(totalcc.toFixed(1));
+            $('#total-amount-2').text(formatCurrency(total_price,"BD"));
+            let five_percent = (5 / 100 ) * total_price.toFixed(1)
+            $('#percent-amount').text(formatCurrency(five_percent,"BD"));
+            let grand_total = (total_price + five_percent).toFixed(1)
+            $('#grand-total').text(formatCurrency(grand_total,"BD"));
 
         }
         function updateTotalQuantity2() {
             var rank = $('#customerGroup').val();
-            console.log(rank)
             let args = {
                 customer_rank: rank,
             }
             frappe.call({
-                method: "forever.www.apporder.get_customer_group_discount_percentage",
+                method: "forever.www.order.items.get_customer_group_discount_percentage",
                 args: args,
                 callback: function(r) {
-                    console.log(r)
                     if (r.message) {
                         console.log(r.message)
                     }
+                }
+            })
+        }
+        function formatCurrency(amount, countryCode) {
+        const formatter = new Intl.NumberFormat(countryCode, {
+            style: 'currency',
+            currency: getCurrencyCode(countryCode),
+        });
+
+        return formatter.format(amount);
+        }
+
+        function getCurrencyCode(countryCode) {
+        switch (countryCode) {
+                case 'BD':
+                return 'BDT';
             }
-        })
         }
         $('.quantity-input').on('input', updateTotalQuantity);
         $('#customerGroup').on('input', updateTotalQuantity2);

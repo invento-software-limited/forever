@@ -4,12 +4,18 @@
 {% endblock style %}
 
 {% block page_content %}
-<div class="container_d">
+<div class="container">
     <div class="logo">
         <a href="/website"><img  src="{{ logo_image }}" alt="Logo"></a>
     </div>
     <div class="grid">
-        <a href="/notices">
+        <a href="/order/register">
+            <div class="card">
+                <img src="css/images/online-shop.png" alt="Notice">
+                <p>Product Order</p>
+            </div>
+        </a>
+        <a href="/order/notices">
             <div class="card">
                 <img src="css/images/notification.png" alt="Notice">
                 <p>Notice</p>
@@ -30,19 +36,13 @@
             </div>
         </a>
 
-        <a href="/brandmaterial">
+        <a href="/order/brandmaterial">
             <div class="card">
                 <img src="css/images/brand-awareness.png" alt="Notice">
                 <p>Brand Material</p>
             </div>
         </a>
 
-        <a href="/itemorder">
-            <div class="card">
-                <img src="css/images/online-shop.png" alt="Notice">
-                <p>Product Order</p>
-            </div>
-        </a>
 
         <a href="{{ policy or '' }}" download >
             <div class="card">

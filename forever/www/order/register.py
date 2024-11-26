@@ -15,6 +15,7 @@ def get_customer_group_discount_percentage(customer_rank):
     return discount
 
 def get_context(context):
+    context.no_cache = 1
     item_group = frappe.get_all("Item Group","name",pluck="name")
     group_data = []
     for ig in item_group:
@@ -25,8 +26,6 @@ def get_context(context):
     context.item_groups = group_data
     
     logo_image = frappe.db.get_single_value("Website Settings", "app_logo")
-    
-    print("------------------------",logo_image)
     
     if logo_image:
         context.logo_image = logo_image

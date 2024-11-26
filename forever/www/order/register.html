@@ -1,6 +1,16 @@
 {% extends "templates/web.html" %}
 {% block style %}
-<link rel="stylesheet" href="css/order.css">
+<link rel="stylesheet" href="css/items.css">
+<style>
+    .navbar {
+
+        display: none;
+    }
+    .web-footer {
+
+        display: none;
+    }
+</style>
 {% endblock style %}
 
 {% block page_content %}
@@ -11,8 +21,8 @@
         <div class="login-form">
             <!-- Step 1 -->
             <div id="step1" class="step active">
-                <div class="company-logo">
-                    <a href="/website"><img src="{{ logo_image }}" alt="Company Logo"></a>
+                <div class="company-logo home-logo">
+                    <a href="/order/homepage"><img src="{{ logo_image }}" alt="Company Logo"></a>
                 </div>
                 <div class="group">
                     <label for="customer" class="label">FBO ID<spna style="color: red;"> *</spna></label>
@@ -23,7 +33,7 @@
                 </div>
 
                 <div class="back-home">
-                    <a href="/website">Back to home</a>
+                    <a href="/order/homepage">Back to home</a>
                 </div>
             </div>
 
@@ -68,7 +78,7 @@
                 </div>
 
                 <div class="back-home">
-                    <a href="https://invento.dev/app/index.html">Back to home</a>
+                    <a href="/order/homepage">Back to home</a>
                 </div>
             </div>
         </div>
@@ -123,7 +133,7 @@
         }
         frappe.call({
             btn: this,
-            method: "forever.www.apporder.check_customer_information",
+            method: "forever.www.order.register.check_customer_information",
             args: args,
             callback: function(r) {
                 if (r.message.customer_group) {
@@ -165,7 +175,7 @@
         }
 
         var currentDomain = window.location.origin;
-        var url = `/items?rank=${customer_group}&customer=${customer}&customername=${customer_name}&mobile=${mobile}&ordertype=${order_group}`
+        var url = `/order/items?rank=${customer_group}&customer=${customer}&customername=${customer_name}&mobile=${mobile}&ordertype=${order_group}`
         window.location.href = currentDomain + url;
     });
     $('#back4').click(function() {
