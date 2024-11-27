@@ -398,6 +398,15 @@ button:hover {
 
 
 @media (max-width: 600px) {
+    body{
+        overflow: hidden !important;
+    }
+    .page_content{
+        width: 100%;
+  padding: 0 80px;
+  overflow: hidden !important;
+  height: 100vh;
+    }
     .brand {
         padding: 20px 15px 15px 15px;
     }

@@ -1,62 +1,81 @@
 {% extends "templates/web.html" %}
 {% block style %}
-<link rel="stylesheet" href="css/website.css">
+<link rel="stylesheet" href="css/new-home.css">
+<style>
+    .navbar {
+
+        display: none;
+    }
+    .web-footer {
+
+        display: none;
+    }
+</style>
 {% endblock style %}
 
 {% block page_content %}
-<div class="container">
-    <div class="logo">
-        <a href="/website"><img  src="{{ logo_image }}" alt="Logo"></a>
+
+
+<div class="login-wrap">
+    <div class="login-html">
+        <div class="login-form">
+            <div class="logo">
+                <a href="/website"><img  src="{{ logo_image }}" alt="Logo"></a>
+            </div>
+            <div class="grid">
+                <a href="/order/register">
+                    <div class="card">
+                        <img src="css/images/online-shop.png" alt="Notice">
+                        <p>Product Order</p>
+                    </div>
+                </a>
+                <a href="/order/notices">
+                    <div class="card">
+                        <img src="css/images/notification.png" alt="Notice">
+                        <p>Notice</p>
+                    </div>
+                </a>
+        
+                <a href="{{ catalouge or '' }}" download >
+                    <div class="card">
+                        <img src="css/images/brochure.png" alt="Notice">
+                        <p>Catelog</p>
+                    </div>
+                </a>
+        
+                <a href="{{ prodcut_list or '' }}" download >
+                    <div class="card">
+                        <img src="css/images/list.png" alt="Notice">
+                        <p>Product List</p>
+                    </div>
+                </a>
+        
+                <a href="/order/brandmaterial">
+                    <div class="card">
+                        <img src="css/images/brand-awareness.png" alt="Notice">
+                        <p>Brand Material</p>
+                    </div>
+                </a>
+        
+        
+                <a href="{{ policy or '' }}" download >
+                    <div class="card">
+                        <img src="css/images/legal-compliance.png" alt="Notice">
+                        <p>Company Policy</p>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+        <div class="ffo"> 
+            <p class="credit">Developed by <a href="https://invento.com.bd/" target="_blank""> Invento Software Limited </a></p>
+        </div>
     </div>
-    <div class="grid">
-        <a href="/order/register">
-            <div class="card">
-                <img src="css/images/online-shop.png" alt="Notice">
-                <p>Product Order</p>
-            </div>
-        </a>
-        <a href="/order/notices">
-            <div class="card">
-                <img src="css/images/notification.png" alt="Notice">
-                <p>Notice</p>
-            </div>
-        </a>
-
-        <a href="{{ catalouge or '' }}" download >
-            <div class="card">
-                <img src="css/images/brochure.png" alt="Notice">
-                <p>Catelog</p>
-            </div>
-        </a>
-
-        <a href="{{ prodcut_list or '' }}" download >
-            <div class="card">
-                <img src="css/images/list.png" alt="Notice">
-                <p>Product List</p>
-            </div>
-        </a>
-
-        <a href="/order/brandmaterial">
-            <div class="card">
-                <img src="css/images/brand-awareness.png" alt="Notice">
-                <p>Brand Material</p>
-            </div>
-        </a>
-
-
-        <a href="{{ policy or '' }}" download >
-            <div class="card">
-                <img src="css/images/legal-compliance.png" alt="Notice">
-                <p>Company Policy</p>
-            </div>
-        </a>
-    </div>
-    <p class="credit">Developed by <a href="https://invento.com.bd/">Invento Software Limited</a></p>
 </div>
+
 
 {% endblock page_content %}
 {% block script %}
-<script>
-    
-</script>
+
+
 {% endblock script %}
