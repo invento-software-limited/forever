@@ -175,9 +175,9 @@ def make_cart_page(customer_group,items):
                     "rate" : format_taka(rate_with_discount),
                     "qty": float(it.get("qty")),
                     "amount": round(amount),
-                    "cc": round(cc,1) or "",
+                    "cc": round(cc,1) or 0,
                     "image" : item.image,
-                    "item_cc" : item.cc or ""
+                    "item_cc" : item.cc or 0
                 }
             result.append(data_dict)
     
