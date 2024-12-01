@@ -97,7 +97,7 @@
                                             <input type="hidden" class="item-price" value="{{ item.standard_selling_rate or 0 }}">
                                         </div>
                                         <div class="quantity-control">
-                                            <input type="text" id="quantity-input" class="quantity-input" placeholder="QTY"
+                                            <input type="number" id="quantity-input" class="quantity-input" placeholder="QTY"
                                             data-product="{{ item.item_name }}™">
                                                 <div class="total-amt">
                                                     <div class="cc">
@@ -280,6 +280,14 @@
     let back2 = $('#back2')
     let setp3_2 = $('#step3')
 
+    function formatTaka(amount) {
+        return new Intl.NumberFormat('en-BD', {
+            style: 'currency',
+            currency: 'BDT',
+            currencyDisplay: 'narrowSymbol'
+        }).format(amount).replace(/\s?৳/, '');
+    }
+
     // Show Step 4 (Order Summary)
     next3.addEventListener("click", function () {
         var customer = $('#id').val();
@@ -338,7 +346,7 @@
                                         CC : ${item.cc}
                                     </div>
                                     <div class="amt">
-                                        Amt : BDT ${item.amount}
+                                        Amt : BDT ${formatTaka(item.amount)}
                                     </div>
                                 </div>
                             </div>
@@ -449,13 +457,13 @@
 
 
     document.getElementById('download-qr').addEventListener('click', function() {
-            html2canvas(document.getElementById('qr-div')).then(function(canvas) {
-                var link = document.createElement('a');
-                link.download = 'Invoice-QR.png';
-                link.href = canvas.toDataURL();
-                link.click();
-            });
+        html2canvas(document.getElementById('qr-div')).then(function(canvas) {
+            var link = document.createElement('a');
+            link.download = 'Invoice-QR.png';
+            link.href = canvas.toDataURL();
+            link.click();
         });
+    });
 
 </script>
 <script>
@@ -546,12 +554,19 @@
             const totalCC = ccValue * quantity;
             const totalAmt = price * quantity;
             if (ccValue) {
-                productCard.querySelector('.total-amt .cc').textContent = `CC: ${totalCC.toFixed(1)}`;
+                productCard.querySelector('.total-amt .cc').textContent = `CC: ${formatTaka(totalCC)}`;
             }
             if (price) {
-                productCard.querySelector('.total-amt .amt').textContent = `Amt: ${totalAmt.toFixed(0)}`;
+                productCard.querySelector('.total-amt .amt').textContent = `Amt: ${formatTaka(totalAmt)}`;
             }
         });
     });
+    function formatTaka(amount) {
+        return new Intl.NumberFormat('en-BD', {
+            style: 'currency',
+            currency: 'BDT',
+            currencyDisplay: 'narrowSymbol'
+        }).format(amount).replace(/\s?৳/, '');
+    }
 </script>
 {% endblock script %}
