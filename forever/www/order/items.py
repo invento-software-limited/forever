@@ -57,8 +57,10 @@ def get_context(context):
         if discount:
             price = item.get("standard_selling_rate") - ((discount * item.get("standard_selling_rate")) / 100)
             data_dict["standard_selling_rate"] = round(price,1)
+            data_dict["standard_selling_rate_show"] = format_taka(round(price,1))
         else:
             data_dict["standard_selling_rate"] = item.get("standard_selling_rate")
+            data_dict["standard_selling_rate_show"] = format_taka(item.get("standard_selling_rate"))
 
         data.append(data_dict)
     context.itemss = data
@@ -170,7 +172,7 @@ def make_cart_page(customer_group,items):
             data_dict = {
                     "item_code": item.item_code or item.item_code or "",
                     "item_name": item.item_name or "",
-                    "rate" : rate_with_discount,
+                    "rate" : format_taka(rate_with_discount),
                     "qty": float(it.get("qty")),
                     "amount": round(amount),
                     "cc": round(cc,1) or "",
@@ -185,3 +187,7 @@ def make_cart_page(customer_group,items):
 def get_customer_group_discount_percentage(customer_rank):
     discount = frappe.db.get_value("Customer Group",{"name":customer_rank},"discount")
     return discount
+
+def format_taka(amount):
+    formatted_amount = "{:,.1f}".format(amount)  # Format with commas and 2 decimal places
+    return f"৳{formatted_amount}"

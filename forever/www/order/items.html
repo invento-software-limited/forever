@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="summary">
                                     <div class="summary-label">Amount</div>
-                                    <div class="summary-value"><span id="total-amount">0</span></div>
+                                    <div class="summary-value">৳<span id="total-amount">0</span></div>
                                 </div>
                             </div>
 
@@ -87,10 +87,10 @@
                                             <img src="{{ item.image }}" alt="{{ item.item_name }}">
                                         </div>
                                         <div class="product-info">
-                                            <h4>{{ item.item_name }}™</h4>
+                                            <h4>{{ item.item_name }}</h4>
                                             <div class="item">{{ item.item_code }}</div>
-                                            <div class="price" data-price = "{{ item.standard_selling_rate or '' }}">Your Price: {{ item.standard_selling_rate or "" }} BDT</div>
-                                            <div class="item cc-value" data-cc="{{ item.cc or '' }}">CC: {{ item.cc or "" }}</div>
+                                            <div class="price" data-price = "{{ item.standard_selling_rate or '' }}">Price: {{ item.standard_selling_rate_show or "" }}</div>
+                                            <div class="item cc-value" data-cc="{{ item.cc or '' }}">CC: {{ item.cc or 0 }}</div>
                                             <input type="hidden" class="item-cc" value="{{ item.cc }}">
                                             <input type="hidden" class="item-id" value="{{ item.item_code }}">
                                             <input type="hidden" class="item-limit" value="{{ item.limit or 0 }}">
@@ -147,15 +147,15 @@
                                 </div>
                                 <div class="cart-summery">
                                     <div>
-                                        Sub-total :  <span id="total-amount-2">0</span>
+                                        Sub-total : ৳<span id="total-amount-2">0</span>
                                     </div>
                                     <div>
-                                        VAT 5% :  <span id="percent-amount">0</span>
+                                        VAT 5% : ৳<span id="percent-amount">0</span>
                                     </div>
                                 </div>
                             </div>
                                 <div class="grand-total">
-                                        Grand Total : <span id="grand-total">0</span>
+                                        Grand Total : ৳<span id="grand-total">৳0</span>
                                 </div>
 
                             <div class="search-filter">
@@ -232,6 +232,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/dom-to-image@2.6.0/src/dom-to-image.min.js"></script> -->
+
 
 
 
@@ -334,7 +336,7 @@
                             <div class="product-info">
                                 <h4>${ item.item_name }™</h4>
                                 <div class="item">${ item.item_code }</div>
-                                <div class="price">Price: ${ item.rate } BDT</div>
+                                <div class="price">Price: ${ item.rate }</div>
                                 <div class="item">CC: ${item.item_cc}</div>
                             </div>
                             <div class="cart-control">
@@ -346,7 +348,7 @@
                                         CC : ${item.cc}
                                     </div>
                                     <div class="amt">
-                                        Amt : BDT ${formatTaka(item.amount)}
+                                        Amt : ৳${formatTaka(item.amount)}
                                     </div>
                                 </div>
                             </div>
@@ -463,6 +465,17 @@
             link.href = canvas.toDataURL();
             link.click();
         });
+        // const node = document.getElementById('qr-div');
+        // domtoimage.toBlob(node)
+        //     .then(function (blob) {
+        //         const link = document.createElement('a');
+        //         link.href = URL.createObjectURL(blob);
+        //         link.download = 'Invoice-QR.png';
+        //         link.click();
+        //     })
+        //     .catch(function (error) {
+        //         console.error('Error capturing the div:', error);
+        //     });
     });
 
 </script>
@@ -524,20 +537,12 @@
                 }
             })
         }
-        function formatCurrency(amount, countryCode) {
-        const formatter = new Intl.NumberFormat(countryCode, {
-            style: 'currency',
-            currency: getCurrencyCode(countryCode),
-        });
-
-        return formatter.format(amount);
-        }
-
-        function getCurrencyCode(countryCode) {
-        switch (countryCode) {
-                case 'BD':
-                return 'BDT';
-            }
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-BD', {
+                style: 'currency',
+                currency: 'BDT',
+                currencyDisplay: 'narrowSymbol'
+            }).format(amount).replace(/\s?৳/, '');
         }
         $('.quantity-input').on('input', updateTotalQuantity);
         $('#customerGroup').on('input', updateTotalQuantity2);
@@ -554,10 +559,10 @@
             const totalCC = ccValue * quantity;
             const totalAmt = price * quantity;
             if (ccValue) {
-                productCard.querySelector('.total-amt .cc').textContent = `CC: ${formatTaka(totalCC)}`;
+                productCard.querySelector('.total-amt .cc').textContent = `CC: ${totalCC.toFixed(1) || 0}`;
             }
             if (price) {
-                productCard.querySelector('.total-amt .amt').textContent = `Amt: ${formatTaka(totalAmt)}`;
+                productCard.querySelector('.total-amt .amt').textContent = `Amt: ৳${formatTaka(totalAmt)}`;
             }
         });
     });
