@@ -376,7 +376,6 @@
             const whatsappNumber = $('#whatsapp-number').val();
             const tax_amount = $('#percent-amount').text();
             const numeric_tax_amount = parseFloat(tax_amount.replace(/[^\d.]/g, ''));
-            console.log(whatsappNumber)
 
             var itemsWithQty = [];
             var total_qty = 0;
@@ -460,6 +459,11 @@
 
 
     document.getElementById('download-qr').addEventListener('click', function() {
+        frappe.show_alert({
+            message:__('Image Download Processing, please Wait...'),
+            indicator:'green'
+        }, 10);
+        $("#download-qr").addClass("hidden")
         html2canvas(document.getElementById('qr-div')).then(function(canvas) {
             var link = document.createElement('a');
             link.download = 'Invoice-QR.png';
