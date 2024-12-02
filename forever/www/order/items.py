@@ -183,9 +183,13 @@ def make_cart_page(customer_group,items):
                     "qty": float(it.get("qty")),
                     "amount": round(amount),
                     "cc": round(cc,1) or 0,
-                    "image" : item.image,
                     "item_cc" : item.cc or 0
                 }
+            if item.get("image"):
+                data_dict["image"] = data_dict["image"] = item.get("image")
+            else:
+                data_dict["image"] = frappe.db.get_single_value("Website Settings", "app_logo")
+                
             result.append(data_dict)
     
     return result
