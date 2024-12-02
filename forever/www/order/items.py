@@ -49,18 +49,25 @@ def get_context(context):
             "item_code" : item.get("item_code"),
             "item_name" : item.get("item_name"),
             "limit" : limit,
-            "image" : item.get("image"),
             "item_group" : item.get("item_group"),
             "item_group_modify" : item.get("item_group").replace(" ","_"),
             "cc" : item.get("cc")
         }
+        
+        if item.get("image"):
+            data_dict["image"] = data_dict["image"] = item.get("image")
+        else:
+            data_dict["image"] = frappe.db.get_single_value("Website Settings", "app_logo")
+            
         if discount:
             price = item.get("standard_selling_rate") - ((discount * item.get("standard_selling_rate")) / 100)
             data_dict["standard_selling_rate"] = round(price,1)
             data_dict["standard_selling_rate_show"] = format_taka(round(price,1))
+            data_dict["standard_selling_rate_actual"] = item.get("standard_selling_rate")
         else:
             data_dict["standard_selling_rate"] = item.get("standard_selling_rate")
             data_dict["standard_selling_rate_show"] = format_taka(item.get("standard_selling_rate"))
+            data_dict["standard_selling_rate_actual"] = item.get("standard_selling_rate")
 
         data.append(data_dict)
     context.itemss = data

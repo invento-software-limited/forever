@@ -95,6 +95,7 @@
                                             <input type="hidden" class="item-id" value="{{ item.item_code }}">
                                             <input type="hidden" class="item-limit" value="{{ item.limit or 0 }}">
                                             <input type="hidden" class="item-price" value="{{ item.standard_selling_rate or 0 }}">
+                                            <input type="hidden" class="item-price-actual" value="{{ item.standard_selling_rate_actual or 0 }}">
                                         </div>
                                         <div class="quantity-control">
                                             <input type="number" id="quantity-input" class="quantity-input" placeholder="QTY"
@@ -476,6 +477,30 @@
         //     .catch(function (error) {
         //         console.error('Error capturing the div:', error);
         //     });
+
+
+        // const qrDiv = document.getElementById('qr-div');
+        // const qrImage = qrDiv.querySelector('img'); // Find the QR code image inside the div
+
+        // if (qrImage) {
+        //     // Create a temporary canvas
+        //     const canvas = document.createElement('canvas');
+        //     canvas.width = qrImage.width;
+        //     canvas.height = qrImage.height;
+
+        //     const ctx = canvas.getContext('2d');
+        //     // Draw the QR code image onto the canvas
+        //     ctx.drawImage(qrImage, 0, 0, qrImage.width, qrImage.height);
+
+        //     // Trigger download
+        //     const link = document.createElement('a');
+        //     link.download = 'qrcode.png';
+        //     link.href = canvas.toDataURL('image/png');
+        //     link.click();
+        // } else {
+        //     alert('QR code not found!');
+        // }
+        
     });
 
 </script>
@@ -486,10 +511,12 @@
             let total_amount = 0
             let totalcc = 0
             let total_price = 0
+            let total_price_actual = 0
             $('.product-card').each(function() {
                 var qty = $(this).find('#quantity-input').val();
                 var cc = $(this).find('.item-cc').val();
                 var price = $(this).find('.item-price').val();
+                var price_actutal = $(this).find('.item-price-actual').val();
                 if (qty) {
                     let item_cc = parseFloat(qty) * parseFloat(cc)
                     totalcc += item_cc
@@ -506,18 +533,20 @@
                     totalQuantity += parseFloat(qty)
                     if (price){
                         total_price += (parseFloat(price) * parseFloat(qty))
+                        total_price_actual += (parseFloat(price_actutal) * parseFloat(qty))
                     }
                 }
             })
-
             $('#total-quantity').text(totalQuantity);
             $('#total-cc').text(totalcc.toFixed(1));
             $('#total-amount').text(formatCurrency(total_price,"BD"));
             $('#total-quantity-2').text(totalQuantity);
             $('#total-cc-2').text(totalcc.toFixed(1));
             $('#total-amount-2').text(formatCurrency(total_price,"BD"));
-            let five_percent = (5 / 100 ) * total_price.toFixed(1)
+
+            let five_percent = (5 / 100 ) * total_price_actual.toFixed(1)
             $('#percent-amount').text(formatCurrency(five_percent,"BD"));
+
             let grand_total = (total_price + five_percent).toFixed(1)
             $('#grand-total').text(formatCurrency(grand_total,"BD"));
 
