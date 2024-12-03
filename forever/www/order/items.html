@@ -184,7 +184,7 @@
                     </div>
 
                     <!-- Order Submitted Message -->
-                    <div id="qr-div">
+                    <div id="qr-div" style="padding-bottom: 2rem;">
                         <div class="order-message">
                             <h2>Order Submitted by</h2>
                             <h3 class="oname">{{ customer_name }}</h3>
@@ -234,6 +234,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <!-- <script src="https://cdn.jsdelivr.net/npm/dom-to-image@2.6.0/src/dom-to-image.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
 
 
 
@@ -458,18 +459,20 @@
     });
 
 
-    document.getElementById('download-qr').addEventListener('click', function() {
-        frappe.show_alert({
-            message:__('Image Download Processing, please Wait...'),
-            indicator:'green'
-        }, 10);
-        $("#download-qr").addClass("hidden")
-        html2canvas(document.getElementById('qr-div')).then(function(canvas) {
-            var link = document.createElement('a');
-            link.download = 'Invoice-QR.png';
-            link.href = canvas.toDataURL();
-            link.click();
-        });
+    // document.getElementById('download-qr').addEventListener('click', function() {
+    //     frappe.show_alert({
+    //         message:__('Image Download Processing, please Wait...'),
+    //         indicator:'green'
+    //     }, 10);
+    //     $("#download-qr").addClass("hidden")
+    //     html2canvas(document.getElementById('qr-div')).then(function(canvas) {
+    //         var link = document.createElement('a');
+    //         link.download = 'Invoice-QR.png';
+    //         link.href = canvas.toDataURL();
+    //         link.click();
+    //     });
+
+
         // const node = document.getElementById('qr-div');
         // domtoimage.toBlob(node)
         //     .then(function (blob) {
@@ -504,8 +507,43 @@
         // } else {
         //     alert('QR code not found!');
         // }
-        
-    });
+    // });
+
+
+
+    var exportBtn = document.getElementById("download-qr");
+    exportBtn.addEventListener("click", exportClick);
+    function exportClick(e) {
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        if (userAgent.toLowerCase().includes("IOS".toLowerCase())){
+            e.preventDefault();
+            convert2image();
+        }else{
+            const qrDiv = document.getElementById("qr-div");
+            qrDiv.style.backgroundColor = "#f1e7e4";
+            html2canvas(document.getElementById('qr-div')).then(function(canvas) {
+                var link = document.createElement('a');
+                link.download = 'Invoice-QR.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+    }
+
+    function convert2image() {
+        const qrDiv = document.getElementById("qr-div");
+        qrDiv.style.backgroundColor = "#f1e7e4";
+        domtoimage
+        .toJpeg(document.getElementById("qr-div"), {
+        quality: 10.95
+        })
+        .then(function (dataUrl) {
+        var link = document.createElement("a");
+        link.download = "Invoice-QR.png";
+        link.href = dataUrl;
+        link.click();
+        });
+    }
 
 </script>
 <script>
