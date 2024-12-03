@@ -184,7 +184,7 @@
                     </div>
 
                     <!-- Order Submitted Message -->
-                    <div id="qr-div" style="padding-bottom: 2rem;">
+                    <div id="qr-div" style="padding-bottom: 1rem;">
                         <div class="order-message">
                             <h2>Order Submitted by</h2>
                             <h3 class="oname">{{ customer_name }}</h3>
@@ -515,7 +515,7 @@
     exportBtn.addEventListener("click", exportClick);
     function exportClick(e) {
         const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-        if (userAgent.toLowerCase().includes("IOS".toLowerCase())){
+        if (userAgent.toLowerCase().includes("iPhone".toLowerCase())){
             e.preventDefault();
             convert2image();
         }else{
