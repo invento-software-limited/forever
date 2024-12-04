@@ -63,7 +63,9 @@ app_license = "mit"
 # 	"methods": "forever.utils.jinja_methods",
 # 	"filters": "forever.utils.jinja_filters"
 # }
-
+website_redirects = [
+    {"source": "/", "target": "/order/homepage"}
+]
 # Installation
 # ------------
 
