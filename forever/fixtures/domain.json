@@ -1,0 +1,16 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Domain",
+  "domain": "Retail",
+  "modified": "2024-09-17 12:26:34.635854",
+  "name": "Retail"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Domain",
+  "domain": "Manufacturing",
+  "modified": "2024-09-17 12:26:43.045848",
+  "name": "Manufacturing"
+ }
+]

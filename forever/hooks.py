@@ -195,6 +195,14 @@ doc_events = {
 # before_job = ["forever.utils.before_job"]
 # after_job = ["forever.utils.after_job"]
 
+fixtures = [
+    "Workflow State",
+    "Workflow",
+    "Workflow Action Master",
+    "Domain",
+    "Custom DocPerm"
+]
+
 # User Data Protection
 # --------------------
 

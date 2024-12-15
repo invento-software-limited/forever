@@ -16,9 +16,5 @@ frappe.ui.form.on("Sales Invoice", {
 						refresh_field("taxes");
 				}
 		},
-		before_save (frm) {
-				let payment_due_date = frappe.datetime.add_days(frm.doc.due_date, 30);
-				frm.set_value('due_date', payment_due_date);
-				frm.refresh_field("due_date")
-		}
+		
 })

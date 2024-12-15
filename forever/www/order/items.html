@@ -1,5 +1,8 @@
 
 {% extends "templates/web.html" %}
+{% block title %}
+Forever Bangladesh
+{% endblock %}
 {% block style %}
 <link rel="stylesheet" href="css/items.css">
 <style>
@@ -88,9 +91,9 @@
                                         </div>
                                         <div class="product-info">
                                             <h4>{{ item.item_name }}</h4>
-                                            <div class="item">{{ item.item_code }}</div>
+                                            <div class="item">Item Code: {{ item.item_code }}</div>
                                             <div class="price" data-price = "{{ item.standard_selling_rate or '' }}">Price: {{ item.standard_selling_rate_show or "" }}</div>
-                                            <div class="item cc-value" data-cc="{{ item.cc or '' }}">CC: {{ item.cc or 0 }}</div>
+                                            <div class="item cc-value" data-cc="{{ item.cc or '' }}">Limit: {{ item.limit or 0 }} | CC: {{ item.cc or 0 }}</div>
                                             <input type="hidden" class="item-cc" value="{{ item.cc }}">
                                             <input type="hidden" class="item-id" value="{{ item.item_code }}">
                                             <input type="hidden" class="item-limit" value="{{ item.limit or 0 }}">
