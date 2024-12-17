@@ -132,7 +132,8 @@ doc_events = {
 		  "validate": "forever.forever.doc_events.item_price.extend_validate"
     },
     "Sales Invoice" : {
-      "before_validate": "forever.forever.doc_events.sales_invoice.extended_validate"
+      "before_validate": "forever.forever.doc_events.sales_invoice.extended_before_validate",
+      "validate": "forever.forever.doc_events.sales_invoice.extended_validate",
     }
 }
 

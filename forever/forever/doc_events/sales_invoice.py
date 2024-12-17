@@ -1,6 +1,6 @@
 import frappe
 
-def extended_validate(doc,method=None):
+def extended_before_validate(doc,method=None):
     if doc.customer_group != doc.updated_customer_group:
         customer = frappe.get_doc("Customer",doc.customer)
         customer.customer_group = doc.updated_customer_group
@@ -21,3 +21,14 @@ def extended_validate(doc,method=None):
     # doc.total = sub_total
     # doc.grand_total = sub_total
     # doc.rounded_total = sub_total
+
+def extended_validate(doc,method=None):
+    total = 0
+    if doc.items:
+        for item in doc.items:
+            total += item.price_list_rate * item.qty
+        vat_percentage = ((5 * total ) / 100)
+        if doc.taxes:
+            for tax in doc.taxes:
+                if tax.charge_type == "Actual":
+                    tax.tax_amount = vat_percentage

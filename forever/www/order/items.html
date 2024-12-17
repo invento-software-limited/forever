@@ -93,7 +93,7 @@ Forever Bangladesh
                                             <h4>{{ item.item_name }}</h4>
                                             <div class="item">Item Code: {{ item.item_code }}</div>
                                             <div class="price" data-price = "{{ item.standard_selling_rate or '' }}">Price: {{ item.standard_selling_rate_show or "" }}</div>
-                                            <div class="item cc-value" data-cc="{{ item.cc or '' }}">Limit: {{ item.limit or 0 }} | CC: {{ item.cc or 0 }}</div>
+                                            <div class="item cc-value" data-cc="{{ item.cc or '' }}">CC: {{ item.cc or 0 }} {% if item.limit %} | Limit: {{ item.limit or 0 }} {% endif %}</div>
                                             <input type="hidden" class="item-cc" value="{{ item.cc }}">
                                             <input type="hidden" class="item-id" value="{{ item.item_code }}">
                                             <input type="hidden" class="item-limit" value="{{ item.limit or 0 }}">
@@ -589,6 +589,7 @@ Forever Bangladesh
             $('#total-cc-2').text(totalcc.toFixed(1));
             $('#total-amount-2').text(formatCurrency(total_price,"BD"));
 
+            console.log(total_price_actual)
             let five_percent = (5 / 100 ) * total_price_actual.toFixed(1)
             $('#percent-amount').text(formatCurrency(five_percent,"BD"));
 
