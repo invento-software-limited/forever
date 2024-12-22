@@ -33,7 +33,8 @@ def get_context(context):
 
     discount = get_customer_group_discount_percentage(rank)
     data = []
-    items = frappe.get_all("Item",fields=["item_code","item_name","standard_selling_rate","image","item_group","cc"],filters={"item_group" : ['in',["Product","All Item Groups"]]},debug=1)
+    items = frappe.get_all("Item",fields=["item_code","item_name","standard_selling_rate","image","item_group","cc"],filters={"item_group" : ['in',["Product"]]})
+    # ,"All Item Groups"
     for item in items:
         limit = frappe.db.get_value(
             'Item Limit',
