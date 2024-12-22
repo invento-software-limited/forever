@@ -14,7 +14,8 @@ def extended_before_validate(doc,method=None):
             
         for item in doc.items:
             #  or item.item_group != "All Item Groups"
-            if item.item_group != "Products":
+            item_group = frappe.db.get_value("Item",item.item_code,"item_group")
+            if item_group != "Products":
                 frappe.throw("Item Group must be Products")
             item_rate = frappe.db.get_value("Item",item.get("item_code"),"standard_selling_rate") if frappe.db.get_value("Item",item.get("item_code"),"standard_selling_rate") else 0
             rate =  item_rate - ((customer_group_percentage * item_rate ) / 100)
