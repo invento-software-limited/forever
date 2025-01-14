@@ -14,8 +14,11 @@ app_license = "mit"
 # app_include_js = "/assets/forever/js/forever.js"
 
 # include js, css files in header of web template
-# web_include_css = "/assets/forever/css/forever.css"
-# web_include_js = "/assets/forever/js/forever.js"
+web_include_css = ["/assets/forever/css/pwa-alerts.css"]
+web_include_js = [
+	"pwa.js",
+	"sw.js"
+]
 
 # include custom scss in every website theme (without file extension ".scss")
 # website_theme_scss = "forever/public/scss/website"
