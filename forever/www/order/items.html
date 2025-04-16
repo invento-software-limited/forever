@@ -4,7 +4,7 @@
 Forever Bangladesh
 {% endblock %}
 {% block style %}
-<link rel="stylesheet" href="css/items.css"> 
+<link rel="stylesheet" href="css/items.css">
 <style>
     .navbar {
 
@@ -79,7 +79,7 @@ Forever Bangladesh
                         <div class="tabs-container">
                             <p style="text-align: center;color: #000;">All Products</p>
                         </div>
-    
+
                         <!-- Product Listing -->
                         <div class="product-list">
                             <!-- fine fragrances -->
@@ -115,12 +115,12 @@ Forever Bangladesh
                                     </div>
                                 {% endfor %}
                             {% else %}
-    
+
                                 <div class="no-products" style="display: none;">
                                     No items found!
                                 </div>
                             {% endif %}
-    
+
                             <div class="search-filter">
                                 <div>
                                     <!-- Order Button -->
@@ -154,7 +154,7 @@ Forever Bangladesh
                                         Sub-total : ৳<span id="total-amount-2">0</span>
                                     </div>
                                     <div>
-                                        VAT 5% : ৳<span id="percent-amount">0</span>
+                                        VAT 7.5% : ৳<span id="percent-amount">0</span>
                                     </div>
                                 </div>
                             </div>
@@ -176,7 +176,7 @@ Forever Bangladesh
                     </div>
                 </div>
             </div>
-            
+
         </div>
             <!-- Step 4 -->
             <div id="step4" class="step">
@@ -194,7 +194,7 @@ Forever Bangladesh
                             <p style="margin-top: -15px;padding-bottom: 5px;">FBO ID: {{ customer }}</p>
                             <p>Thank you for your order!</p>
                         </div>
-    
+
                         <!-- QR Code -->
                         <div id="qrcode" style="display: flex;flex-direction: row;justify-content: center;"></div>
                         <p class="invoice-id mt-2" style="color: black;"></p>
@@ -214,7 +214,7 @@ Forever Bangladesh
                             <p style="font-size: 14px;;line-height: 20px;color:#404040;">বিঃদ্রঃ আপনাকে কল করার আগে পেমেন্ট পাঠাবেন না !</p>
                         </div>
                         {% endif %}
-                        
+
                     </div>
 
                 </div>
@@ -333,7 +333,7 @@ Forever Bangladesh
                 if (r.message) {
                     cart_div.empty()
                     r.message.forEach(item => {
-                        
+
                         let items_data = `<div class="product-card cart-item">
                             <div class="product-image">
                                 <img src="${ item.image }" alt="${ item.item_name }">
@@ -431,7 +431,7 @@ Forever Bangladesh
                         }
                     }
                 })
-                
+
             }else{
                 frappe.show_alert({
                     message:__('No Quantity Selected! Please Select Quantity'),
@@ -566,7 +566,7 @@ Forever Bangladesh
                     let item_cc = parseFloat(qty) * parseFloat(cc)
                     totalcc += item_cc
                 }
-                
+
 
                 var limit = $(this).find('.item-limit').val();
                 if (limit > 0 && parseFloat(qty) > limit) {
@@ -621,7 +621,7 @@ Forever Bangladesh
         }
         $('.quantity-input').on('input', updateTotalQuantity);
         $('#customerGroup').on('input', updateTotalQuantity2);
-        
+
     });
 </script>
 <script>
